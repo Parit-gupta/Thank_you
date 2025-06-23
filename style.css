@@ -1,0 +1,1971 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  background: #000;
+  color: white;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+.typing {
+  font-family: "Great Vibes", cursive;
+  font-size: 2.8rem;
+  text-align: center;
+  background: linear-gradient(90deg, #ff6ec4, #7873f5, #4ef0c7);
+  background-size: 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientText 6s ease infinite;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.6); /* <-- This adds clarity */
+}
+
+.typing::after {
+  content: attr(data-text);
+  color: white;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  z-index: -1;
+  opacity: 0.1;
+}
+
+.typing.start-typing {
+  max-width: 100%; /* Full width to reveal text */
+}
+
+/* Bouncy effect for the typing text */
+.bouncy {
+  animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite,
+    bouncyText 1s ease-in-out infinite alternate;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: orange;
+  }
+}
+
+@keyframes bouncyText {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.sky {
+  padding: 2rem;
+  min-height: 100vh;
+  position: relative;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 1.5s ease-out;
+  box-sizing: border-box;
+  background: radial-gradient(
+    ellipse at bottom,
+    #1b2735 0%,
+    /* Deep space gradient */ #090a0f 100%
+  );
+}
+
+.sky.show {
+  opacity: 1;
+}
+
+.stars {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0; /* Ensures stars are in the background */
+}
+
+/* Individual Star Styles (for blinking stars) */
+.star {
+  position: absolute;
+  background-color: white;
+  border-radius: 50%;
+  animation: blinkStar var(--blink-duration) infinite alternate ease-in-out;
+  opacity: 0; /* Starts hidden to animate in */
+}
+
+/* --- REVISED: Aurora Borealis Effect (more visible) --- */
+.aurora {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 40%;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 255, 200, 0.2),
+    /* Cyan-green, increased opacity */ rgba(100, 0, 255, 0.2),
+    /* Purple, increased opacity */ transparent 50%
+  );
+  filter: blur(60px); /* Increased blur for more diffusion */
+  animation: auroraMove 25s infinite alternate ease-in-out;
+  pointer-events: none;
+  z-index: -1; /* Place behind stars */
+}
+
+@keyframes auroraMove {
+  0% {
+    transform: translateX(0) scale(1);
+    opacity: 0.8; /* Increased opacity */
+  }
+  50% {
+    transform: translateX(20%) scale(1.05);
+    opacity: 1; /* Increased peak opacity */
+  }
+  100% {
+    transform: translateX(0) scale(1);
+    opacity: 0.8; /* Increased opacity */
+  }
+}
+
+/* Existing static star blink animation */
+@keyframes blinkStar {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* --- REVISED: Shooting Star Styles (more visible comet tail) --- */
+.shooting-star {
+  position: absolute;
+  display: block;
+  height: 3px; /* Thickness of the star trail */
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 1) 0%,
+    /* Bright head */ rgba(255, 255, 255, 0.8) 10%,
+    /* Strong start to the tail */ rgba(255, 255, 255, 0) 100%
+      /* Fades to transparent tail */
+  );
+  border-radius: 2px;
+  opacity: 0; /* Starts invisible, JavaScript sets opacity to 0.8 on creation */
+  z-index: 5; /* Appears above regular stars but possibly below some UI elements if present */
+  transform-origin: left center;
+  pointer-events: none; /* Allows clicks to pass through */
+  filter: blur(1.5px); /* Optional: slight blur for softer look */
+}
+
+.glowing-circle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  animation: softPulse 6s ease-in-out infinite;
+  /* ❌ NO background or gradient here */
+}
+
+@keyframes floatGlass {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateY(-10px) scale(1.1);
+    opacity: 0.6;
+  }
+}
+
+/* --- Remaining existing CSS for cards, modals, etc. --- */
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  z-index: 1;
+  position: relative;
+  opacity: 0;
+  transform: translateY(50px);
+}
+
+.card-container.show-cards {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 2s ease-out, transform 2s ease-out;
+}
+
+.sky.show .card-container {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 50px;
+  padding: 20px;
+}
+
+.card {
+  width: 260px;
+  height: 370px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  text-align: center;
+  color: white;
+  padding: 15px;
+}
+
+/* New: Jiggly effect on card hover */
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
+  animation: jiggly 0.4s ease-in-out infinite alternate;
+}
+
+@keyframes jiggly {
+  0% {
+    transform: rotate(0deg) scale(1.05);
+  }
+  25% {
+    transform: rotate(-2deg) scale(1.05);
+  }
+  50% {
+    transform: rotate(0deg) scale(1.05);
+  }
+  75% {
+    transform: rotate(2deg) scale(1.05);
+  }
+  100% {
+    transform: rotate(0deg) scale(1.05);
+  }
+}
+
+.card:nth-child(1) {
+  animation-delay: 0.2s;
+}
+.card:nth-child(2) {
+  animation-delay: 0.4s;
+}
+.card:nth-child(3) {
+  animation-delay: 0.6s;
+}
+.card:nth-child(4) {
+  animation-delay: 0.8s;
+}
+
+@keyframes cardFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 15px;
+  margin-bottom: 10px;
+}
+
+.card:hover img {
+  transform: scale(1.1);
+}
+
+.card h2 {
+  margin-bottom: 0.8rem;
+  color: #ffd700;
+}
+
+.card button {
+  padding: 0.7rem 1.4rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(135deg, #ff00cc, #3333ff);
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(255, 0, 255, 0.4);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.card button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.2),
+    rgba(255, 255, 255, 0)
+  );
+  transition: all 0.5s ease;
+  z-index: 0;
+}
+
+.card button:hover::before {
+  left: 0;
+}
+
+.card button:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 25px rgba(255, 0, 255, 0.7), 0 0 50px rgba(51, 51, 255, 0.5);
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  background: white;
+  color: black;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 300px;
+  max-width: 90%;
+  text-align: center;
+  position: relative;
+  animation: modalFadeIn 0.4s ease-out;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* New: Wobbly modal content entrance */
+@keyframes modalFadeIn {
+  from {
+    transform: scale(0.8) translateY(-20px) rotate(-5deg);
+    opacity: 0;
+  }
+  20% {
+    transform: scale(1.05) translateY(5px) rotate(2deg);
+  }
+  40% {
+    transform: scale(0.95) translateY(-5px) rotate(-1deg);
+  }
+  60% {
+    transform: scale(1.02) translateY(2px) rotate(1deg);
+  }
+  100% {
+    transform: scale(1) translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.close {
+  position: sticky;
+  top: 0;
+  right: 12px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 999;
+}
+
+.close:hover {
+  color: #ff4444;
+}
+
+footer {
+  margin-top: 4rem;
+  color: #bbb;
+  font-size: 1rem;
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+footer.show-footer {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 1.5s ease-out, transform 1.5s ease-out;
+}
+
+.sky.show footer {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#intro-overlay {
+  position: fixed;
+  inset: 0;
+  background: black; /* Changed to solid black for intro */
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+#intro-overlay.active {
+  opacity: 1;
+}
+
+#intro-overlay.fade-out {
+  opacity: 0;
+  animation: burnFadeOut 2s ease-out forwards;
+  animation-delay: 0.5s;
+}
+
+#intro-overlay img {
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: 20px;
+  box-shadow: 0 0 50px rgba(255, 255, 255, 0.4);
+  transform: scale(0.9);
+  animation: introImageScale 1s ease-out 0.5s forwards;
+  filter: brightness(1) saturate(1);
+  transition: filter 1.5s ease-out;
+}
+
+@keyframes introImageScale {
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes burnFadeOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+    filter: brightness(1) saturate(1) blur(0px);
+  }
+  30% {
+    opacity: 0.8;
+    transform: scale(1.02);
+    filter: brightness(1.5) saturate(2) blur(1px) hue-rotate(10deg);
+  }
+  60% {
+    opacity: 0.4;
+    transform: scale(1.05);
+    filter: brightness(2) saturate(3) blur(2px) hue-rotate(20deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.1);
+    filter: brightness(0.5) saturate(0) blur(10px) hue-rotate(30deg);
+    pointer-events: none;
+  }
+}
+
+.photo-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.photo-gallery img {
+  opacity: 0;
+  transform: scale(0.8);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.photo-gallery img:hover {
+  transform: scale(1.1);
+}
+
+/* Start Overlay Styles */
+#start-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    #1a0033,
+    #000000
+  ); /* Darker, space-like gradient */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 1;
+  transition: opacity 1s ease-out, visibility 1s ease-out;
+}
+.funny-intro-text {
+  color: white;
+  font-family: "Poppins", sans-serif;
+  font-size: 22px;
+  text-align: center;
+  margin-top: 20px;
+  min-height: 80px;
+  line-height: 1.5;
+  position: relative; /* For blinking cursor */
+}
+
+#funny-line::after {
+  content: "|";
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* RGB lighting glow behind Start button */
+.rgb-glow {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px; /* Space between button and text */
+}
+
+.rgb-glow button {
+  position: relative;
+  z-index: 2;
+  font-size: 1.2rem;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 30px;
+  background: #111;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 0 10px #fff;
+  transition: transform 0.3s ease;
+}
+
+.rgb-glow button:hover {
+  transform: scale(1.05);
+}
+
+.rgb-waves {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: conic-gradient(
+    from 0deg,
+    red,
+    orange,
+    yellow,
+    green,
+    blue,
+    indigo,
+    violet,
+    red
+  );
+  border-radius: 50%;
+  filter: blur(40px);
+  animation: rotate 5s linear infinite;
+  z-index: 1;
+  opacity: 0.7;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.1);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+.modal {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  animation: fadeInBg 0.4s ease forwards;
+}
+
+.modal-content {
+  background-color: #111;
+  color: #fff;
+  border-radius: 15px;
+  padding: 30px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  text-align: center;
+  transform: scale(0.6);
+  opacity: 0;
+  animation: modalFadeIn 0.5s ease forwards;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+}
+
+@keyframes fadeInBg {
+  from {
+    background: rgba(0, 0, 0, 0);
+  }
+  to {
+    background: rgba(0, 0, 0, 0.7);
+  }
+}
+
+.modal-content.closing {
+  animation: zoomOut 0.3s ease forwards;
+}
+
+@keyframes zoomOut {
+  to {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+}
+
+@keyframes fadeZoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.fade-zoom {
+  animation: fadeZoomIn 0.6s ease forwards;
+}
+
+.photo-gallery img:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
+}
+
+.modal-content img {
+  max-width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+  margin-top: 15px;
+}
+
+.card-image-slider {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 15px;
+}
+
+.card-image-slider img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  border-radius: 15px;
+}
+
+.card-image-slider img.active {
+  opacity: 1;
+}
+.typing,
+h2 {
+  background: linear-gradient(90deg, #ff6ec4, #7873f5, #4ef0c7);
+  background-size: 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientText 6s ease infinite;
+}
+
+@keyframes gradientText {
+  0% {
+    background-position: 0%;
+  }
+  50% {
+    background-position: 100%;
+  }
+  100% {
+    background-position: 0%;
+  }
+}
+.card {
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  animation: rgbGlow 5s infinite linear;
+  border: 2px solid transparent;
+}
+
+@keyframes rgbGlow {
+  0% {
+    box-shadow: 0 0 15px #ff004f, 0 0 30px #ff004f;
+    border-color: #ff004f;
+  }
+  33% {
+    box-shadow: 0 0 15px #00f7ff, 0 0 30px #00f7ff;
+    border-color: #00f7ff;
+  }
+  66% {
+    box-shadow: 0 0 15px #00ff8a, 0 0 30px #00ff8a;
+    border-color: #00ff8a;
+  }
+  100% {
+    box-shadow: 0 0 15px #ff004f, 0 0 30px #ff004f;
+    border-color: #ff004f;
+  }
+}
+
+.collage-section {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.collage-title {
+  font-family: "Great Vibes", cursive;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+.collage-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.collage-grid img {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.collage-grid img:hover {
+  transform: scale(1.05);
+}
+
+.typing {
+  font-family: "Great Vibes", cursive;
+  font-size: 2.5rem;
+  color: #ffdd99;
+  margin-bottom: 3rem;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 3px solid #ffdd99;
+  width: 0;
+  text-shadow: 0 0 20px rgba(255, 221, 153, 0.5);
+  opacity: 0;
+}
+
+.typing.start-typing {
+  opacity: 1;
+  animation: typing 5s steps(55, end) forwards,
+    blinkCursor 0.75s step-end infinite;
+}
+
+/* New: Bounce animation for the typing text */
+.typing.bouncy {
+  animation: typing 5s steps(55, end) forwards,
+    blinkCursor 0.75s step-end infinite, bounceText 0.8s ease-out 5s 1; /* Added bounce after typing finishes */
+}
+
+@keyframes fadeInSlide {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blinkCursor {
+  50% {
+    border-color: transparent;
+  }
+}
+
+/* New: Bounce text animation */
+@keyframes bounceText {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-10px);
+  }
+  50% {
+    transform: translateY(0px);
+  }
+  75% {
+    transform: translateY(-5px);
+  }
+}
+
+.sky {
+  padding: 2rem;
+  min-height: 100vh;
+  position: relative;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 1.5s ease-out;
+  box-sizing: border-box;
+  .sky {
+    background: radial-gradient(ellipse at bottom, #0a0a23 0%, #000000 100%);
+  }
+}
+
+.sky-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6); /* Or 0.7 */
+  z-index: 0;
+  pointer-events: none;
+}
+
+.sky.show {
+  opacity: 1;
+}
+
+.stars {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0; /* Ensures stars are in the background */
+}
+
+/* Individual Star Styles (for blinking stars) */
+.star {
+  position: absolute;
+  background-color: white;
+  border-radius: 50%;
+  animation: blinkStar var(--blink-duration) infinite alternate ease-in-out;
+  opacity: 0; /* Starts hidden to animate in */
+}
+
+/* --- REVISED: Aurora Borealis Effect (more visible) --- */
+.aurora {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 40%;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 255, 200, 0.2),
+    /* Cyan-green, increased opacity */ rgba(100, 0, 255, 0.2),
+    /* Purple, increased opacity */ transparent 50%
+  );
+  filter: blur(60px); /* Increased blur for more diffusion */
+  animation: auroraMove 25s infinite alternate ease-in-out;
+  pointer-events: none;
+  z-index: -1; /* Place behind stars */
+}
+
+@keyframes auroraMove {
+  0% {
+    transform: translateX(0) scale(1);
+    opacity: 0.8; /* Increased opacity */
+  }
+  50% {
+    transform: translateX(20%) scale(1.05);
+    opacity: 1; /* Increased peak opacity */
+  }
+  100% {
+    transform: translateX(0) scale(1);
+    opacity: 0.8; /* Increased opacity */
+  }
+}
+
+/* Existing static star blink animation */
+@keyframes blinkStar {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* --- REVISED: Shooting Star Styles (more visible comet tail) --- */
+.shooting-star {
+  position: absolute;
+  display: block;
+  height: 3px; /* Thickness of the star trail */
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 1) 0%,
+    /* Bright head */ rgba(255, 255, 255, 0.8) 10%,
+    /* Strong start to the tail */ rgba(255, 255, 255, 0) 100%
+      /* Fades to transparent tail */
+  );
+  border-radius: 2px;
+  opacity: 0; /* Starts invisible, JavaScript sets opacity to 0.8 on creation */
+  z-index: 5; /* Appears above regular stars but possibly below some UI elements if present */
+  transform-origin: left center;
+  pointer-events: none; /* Allows clicks to pass through */
+  filter: blur(1.5px); /* Optional: slight blur for softer look */
+}
+
+.glowing-circle {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.6) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.7),
+    0 0 50px rgba(255, 255, 255, 0.4);
+  filter: blur(8px);
+  animation: pulseGlow 5s infinite alternate ease-in-out;
+  opacity: 0.7;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes pulseGlow {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 0.4;
+  }
+}
+
+/* --- Remaining existing CSS for cards, modals, etc. --- */
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  z-index: 1;
+  position: relative;
+  opacity: 0;
+  transform: translateY(50px);
+}
+
+.card-container.show-cards {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 2s ease-out, transform 2s ease-out;
+}
+
+.sky.show .card-container {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 50px;
+  padding: 20px;
+}
+
+.card {
+  width: 260px;
+  height: 370px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  text-align: center;
+  color: white;
+  padding: 15px;
+}
+
+/* New: Jiggly effect on card hover */
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
+  animation: jiggly 0.4s ease-in-out infinite alternate;
+}
+
+@keyframes jiggly {
+  0% {
+    transform: rotate(0deg) scale(1.05);
+  }
+  25% {
+    transform: rotate(-2deg) scale(1.05);
+  }
+  50% {
+    transform: rotate(0deg) scale(1.05);
+  }
+  75% {
+    transform: rotate(2deg) scale(1.05);
+  }
+  100% {
+    transform: rotate(0deg) scale(1.05);
+  }
+}
+
+.card:nth-child(1) {
+  animation-delay: 0.2s;
+}
+.card:nth-child(2) {
+  animation-delay: 0.4s;
+}
+.card:nth-child(3) {
+  animation-delay: 0.6s;
+}
+.card:nth-child(4) {
+  animation-delay: 0.8s;
+}
+
+@keyframes cardFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 15px;
+  margin-bottom: 10px;
+}
+
+.card:hover img {
+  transform: scale(1.1);
+}
+
+.card h2 {
+  margin-bottom: 0.8rem;
+  color: #ffd700;
+}
+
+.card button {
+  padding: 0.6rem 1.2rem;
+  background-color: #ffd700;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #000;
+  transition: transform 0.2s ease;
+}
+
+.card button:hover {
+  transform: scale(1.05);
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  background: white;
+  color: black;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 300px;
+  max-width: 90%;
+  text-align: center;
+  position: relative;
+  animation: modalFadeIn 0.4s ease-out;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* New: Wobbly modal content entrance */
+@keyframes modalFadeIn {
+  from {
+    transform: scale(0.8) translateY(-20px) rotate(-5deg);
+    opacity: 0;
+  }
+  20% {
+    transform: scale(1.05) translateY(5px) rotate(2deg);
+  }
+  40% {
+    transform: scale(0.95) translateY(-5px) rotate(-1deg);
+  }
+  60% {
+    transform: scale(1.02) translateY(2px) rotate(1deg);
+  }
+  100% {
+    transform: scale(1) translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.close {
+  position: sticky;
+  top: 0;
+  right: 12px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 999;
+}
+
+.close:hover {
+  color: #ff4444;
+}
+
+footer {
+  margin-top: 4rem;
+  color: #bbb;
+  font-size: 1rem;
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+footer.show-footer {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 1.5s ease-out, transform 1.5s ease-out;
+}
+
+.sky.show footer {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#intro-overlay {
+  position: fixed;
+  inset: 0;
+  background: black; /* Changed to solid black for intro */
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+#intro-overlay.active {
+  opacity: 1;
+}
+
+#intro-overlay.fade-out {
+  opacity: 0;
+  animation: burnFadeOut 2s ease-out forwards;
+  animation-delay: 0.5s;
+}
+
+#intro-overlay img {
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: 20px;
+  box-shadow: 0 0 50px rgba(255, 255, 255, 0.4);
+  transform: scale(0.9);
+  animation: introImageScale 1s ease-out 0.5s forwards;
+  filter: brightness(1) saturate(1);
+  transition: filter 1.5s ease-out;
+}
+
+@keyframes introImageScale {
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes burnFadeOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+    filter: brightness(1) saturate(1) blur(0px);
+  }
+  30% {
+    opacity: 0.8;
+    transform: scale(1.02);
+    filter: brightness(1.5) saturate(2) blur(1px) hue-rotate(10deg);
+  }
+  60% {
+    opacity: 0.4;
+    transform: scale(1.05);
+    filter: brightness(2) saturate(3) blur(2px) hue-rotate(20deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.1);
+    filter: brightness(0.5) saturate(0) blur(10px) hue-rotate(30deg);
+    pointer-events: none;
+  }
+}
+
+.photo-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.photo-gallery img {
+  opacity: 0;
+  transform: scale(0.8);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.photo-gallery img:hover {
+  transform: scale(1.1);
+}
+
+/* Start Overlay Styles */
+#start-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    #1a0033,
+    #000000
+  ); /* Darker, space-like gradient */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 1;
+  transition: opacity 1s ease-out, visibility 1s ease-out;
+}
+.funny-intro-text {
+  color: white;
+  font-family: "Poppins", sans-serif;
+  font-size: 22px;
+  text-align: center;
+  margin-top: 20px;
+  min-height: 80px;
+  line-height: 1.5;
+  position: relative; /* For blinking cursor */
+}
+
+#funny-line::after {
+  content: "|";
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* RGB lighting glow behind Start button */
+.rgb-glow {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px; /* Space between button and text */
+}
+
+.rgb-glow button {
+  position: relative;
+  z-index: 2;
+  font-size: 1.2rem;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 30px;
+  background: #111;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 0 10px #fff;
+  transition: transform 0.3s ease;
+}
+
+.rgb-glow button:hover {
+  transform: scale(1.05);
+}
+
+.rgb-waves {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: conic-gradient(
+    from 0deg,
+    red,
+    orange,
+    yellow,
+    green,
+    blue,
+    indigo,
+    violet,
+    red
+  );
+  border-radius: 50%;
+  filter: blur(40px);
+  animation: rotate 5s linear infinite;
+  z-index: 1;
+  opacity: 0.7;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.1);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+.modal {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  animation: fadeInBg 0.4s ease forwards;
+}
+
+.modal-content {
+  background-color: #111;
+  color: #fff;
+  border-radius: 15px;
+  padding: 30px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  text-align: center;
+  transform: scale(0.6);
+  opacity: 0;
+  animation: modalFadeIn 0.5s ease forwards;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+}
+
+@keyframes fadeInBg {
+  from {
+    background: rgba(0, 0, 0, 0);
+  }
+  to {
+    background: rgba(0, 0, 0, 0.7);
+  }
+}
+
+.modal-content.closing {
+  animation: zoomOut 0.3s ease forwards;
+}
+
+@keyframes zoomOut {
+  to {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+}
+
+@keyframes fadeZoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.fade-zoom {
+  animation: fadeZoomIn 0.6s ease forwards;
+}
+
+.photo-gallery img:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
+}
+
+.modal-content img {
+  max-width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+  margin-top: 15px;
+}
+
+.card-image-slider {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 15px;
+}
+
+.card-image-slider img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  border-radius: 15px;
+}
+
+.card-image-slider img.active {
+  opacity: 1;
+}
+.typing,
+h2 {
+  background: linear-gradient(90deg, #ff6ec4, #7873f5, #4ef0c7);
+  background-size: 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientText 6s ease infinite;
+}
+
+@keyframes gradientText {
+  0% {
+    background-position: 0%;
+  }
+  50% {
+    background-position: 100%;
+  }
+  100% {
+    background-position: 0%;
+  }
+}
+.card {
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  animation: rgbGlow 5s infinite linear;
+  border: 2px solid transparent;
+}
+
+@keyframes rgbGlow {
+  0% {
+    box-shadow: 0 0 15px #ff004f, 0 0 30px #ff004f;
+    border-color: #ff004f;
+  }
+  33% {
+    box-shadow: 0 0 15px #00f7ff, 0 0 30px #00f7ff;
+    border-color: #00f7ff;
+  }
+  66% {
+    box-shadow: 0 0 15px #00ff8a, 0 0 30px #00ff8a;
+    border-color: #00ff8a;
+  }
+  100% {
+    box-shadow: 0 0 15px #ff004f, 0 0 30px #ff004f;
+    border-color: #ff004f;
+  }
+}
+
+.collage-section {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.collage-title {
+  font-family: "Great Vibes", cursive;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+.collage-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.collage-grid img {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.collage-grid img:hover {
+  transform: scale(1.05);
+}
+
+.cursor-trail-star {
+  position: fixed;
+  font-size: 12px;
+  color: #ffeb3b;
+  text-shadow: 0 0 10px #ffeb3b, 0 0 20px #ffeb3b;
+  pointer-events: none;
+  animation: fadeOutTrail 0.8s ease-out forwards;
+  z-index: 10000;
+}
+
+@keyframes fadeOutTrail {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2);
+  }
+}
+
+/*
+ * Corrected CSS for .gp-sequence-container and .gp-image
+ * To make images larger and form a collage
+ */
+/*
+ * Corrected CSS for .gp-sequence-container and .gp-image
+ * To make images larger and form a collage
+ */
+
+.gp-sequence-container {
+  display: flex;
+  flex-wrap: wrap; /* Allows items to wrap to the next line */
+  justify-content: center; /* Centers items horizontally */
+  gap: 20px; /* Increased gap for better visual separation in a collage */
+  padding: 30px; /* More padding around the collage */
+  position: absolute; /* Keep it absolute if you use JS to transition its display */
+  top: 50%; /* Center vertically if used with absolute positioning */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Adjust for centering */
+  width: 90%; /* Take up more width for the collage */
+  max-width: 1200px; /* Max width for larger screens */
+  box-sizing: border-box; /* Include padding in width */
+  opacity: 0; /* Initially hidden, JS controls visibility */
+  transition: opacity 1s ease-in-out; /* Smooth transition when shown */
+  z-index: 100; /* Ensure it's above other elements if needed for transition */
+  /* When JavaScript sets display to flex, these absolute positioning properties will control its initial placement.
+       When JS sets 'position: static;', these will be overridden. */
+}
+
+.gp-sequence-container.active {
+  opacity: 1; /* For fading in the container */
+}
+
+.gp-sequence-container .gp-image {
+  /* Increased default size for larger pictures */
+  width: 250px; /* Larger base width for images */
+  height: 350px; /* Larger base height for images */
+  object-fit: cover; /* Ensures images cover the area without distortion */
+  border-radius: 20px; /* Slightly more rounded corners for a softer look */
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7); /* Stronger, more prominent shadow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease; /* Added opacity to transition */
+  cursor: pointer;
+  /* Styles for JS animation. When absolute, it positions within the container,
+       when static, it flows normally in the flex container. */
+  position: absolute; /* Default for individual animation, will be overridden by JS for collage display */
+  opacity: 0; /* Default, JS controls fade-in individually */
+}
+
+/* Hover effect */
+.gp-sequence-container .gp-image:hover {
+  transform: scale(1.07); /* Slightly larger scale on hover */
+  box-shadow: 0 12px 40px rgba(0, 200, 255, 0.6); /* Cyan glow on hover */
+}
+
+/* Animations for individual image reveal */
+/* These are typically applied by JavaScript, but the transition property above helps */
+
+/* Responsive for tablets and smaller desktops */
+@media (max-width: 1024px) {
+  .gp-sequence-container {
+    gap: 15px;
+    padding: 20px;
+  }
+  .gp-sequence-container .gp-image {
+    width: 200px; /* Slightly smaller for medium screens */
+    height: 300px;
+  }
+}
+
+/* Responsive for typical mobile devices */
+@media (max-width: 768px) {
+  .gp-sequence-container {
+    gap: 10px;
+    padding: 15px;
+  }
+  .gp-sequence-container .gp-image {
+    width: 48%; /* Two columns on mobile with small gap */
+    height: 250px;
+    border-radius: 15px;
+  }
+}
+
+/* Responsive for very small mobile devices */
+@media (max-width: 480px) {
+  .gp-sequence-container {
+    padding: 10px;
+  }
+  .gp-sequence-container .gp-image {
+    width: 90%; /* Single column on very small screens */
+    height: 220px;
+    margin-bottom: 10px; /* Add some vertical spacing */
+  }
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Optional during collage */
+}
+.button-container {
+  position: relative;
+  z-index: 5; /* Makes sure it's on top */
+  text-align: center;
+  margin-top: 30px;
+}
+
+.btn-somya {
+  padding: 12px 26px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  background: linear-gradient(135deg, #00bfff, #1e90ff);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(30, 144, 255, 0.4);
+  margin-top: 1rem;
+}
+
+.btn-somya:hover {
+  background: linear-gradient(135deg, #4682b4, #1e90ff);
+  box-shadow: 0 6px 16px rgba(30, 144, 255, 0.6);
+  transform: scale(1.05);
+}
+
+.photo-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 1rem;
+}
+
+.photo-gallery img {
+  width: 30%;
+  max-width: 120px;
+  height: auto;
+  opacity: 1;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .photo-gallery img {
+    width: 40%;
+  }
+}
+
+@media (max-width: 480px) {
+  .photo-gallery img {
+    width: 80%;
+  }
+}
+
+@media (max-width: 480px) {
+  .photo-gallery img {
+    width: 80%;
+    max-width: 100px;
+  }
+}
+
+.image-popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.9);
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  animation: fadeIn 0.5s ease;
+}
+
+.image-popup img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.close-popup {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 40px;
+  color: white;
+  cursor: pointer;
+  z-index: 10001;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+/* style.css */
+
+/* ... (your existing CSS for .top-right-name, footer, etc.) ... */
+
+.image-wrapper {
+  position: fixed; /* Use fixed to cover the whole viewport */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: block; /* Initially block but opacity 0 is set by JS */
+  overflow: hidden; /* Hide anything that goes outside */
+  z-index: 50; /* Below start-overlay, above main sky content */
+  background-color: black; /* Or a color that blends with your images */
+  transition: opacity 1s ease-out; /* For fading the whole wrapper */
+}
+
+.crazy-img {
+  position: absolute; /* Keep absolute for initial random placement */
+  object-fit: cover; /* Ensures images fill their assigned box without distortion */
+  transition: all 0.8s ease-in-out; /* Smooth transition for scatter to grid */
+  border-radius: 8px; /* Optional: adds a nice touch to images */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Optional: subtle shadow */
+}
+
+/* --- Final Layout for Collage Images --- */
+.image-wrapper.final-layout {
+  display: grid; /* Change to grid layout */
+  /* This is the magic: auto-fit creates as many columns as fit */
+  /* minmax(150px, 1fr) ensures images are at least 150px but grow to fill space */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-auto-rows: minmax(150px, 1fr); /* Auto rows with min height */
+  gap: 10px; /* Space between images */
+  padding: 10px; /* Padding around the grid */
+  align-items: center; /* Center items vertically in their grid cells */
+  justify-items: center; /* Center items horizontally in their grid cells */
+  opacity: 1; /* Ensure it's fully visible when in final layout */
+  transition: opacity 1s ease-in-out; /* Transition for fading out if needed */
+
+  /* Resetting individual image positions for grid */
+  /* Important: crazy-img will inherit grid positioning, so absolute needs to be overridden */
+}
+
+.image-wrapper.final-layout .crazy-img {
+  position: static; /* Let grid handle positioning */
+  width: 100%; /* Fill grid cell width */
+  height: 100%; /* Fill grid cell height */
+  transform: none; /* Remove random rotations */
+  opacity: 1; /* Ensure images are visible within the grid */
+  transition: all 0.8s ease-in-out; /* Maintain smooth transition */
+}
+
+/* ... (rest of your CSS) ... */
+/* Existing styles - keep your other styles like .start-overlay, #intro-overlay, .sky, .card, modals etc. */
+
+/* Ensure the intro-overlay is initially hidden and transitions correctly */
+#intro-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black; /* Or match your cosmic void background */
+  display: none; /* Initially hidden */
+  justify-content: center;
+  align-items: center;
+  opacity: 0; /* Starts transparent */
+  transition: opacity 2s ease-in-out; /* Smooth fade in/out */
+  z-index: 200; /* Higher z-index to appear on top */
+}
+
+#intro-overlay.active {
+  opacity: 1; /* Fade in */
+}
+
+#intro-overlay.fade-out {
+  opacity: 0; /* Fade out */
+}
+
+#intro-overlay img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain; /* Ensure the image fits */
+}
+
+/* Styles for .gp-sequence-container if you decided to keep it,
+   otherwise, these can be removed.
+   Since we're replacing it with .image-wrapper, these are likely redundant.
+*/
+.gp-sequence-container {
+  display: none; /* Hide it as we are using .image-wrapper for the collage */
+}
+.gp-image {
+  /* These styles will not apply if .gp-sequence-container is display: none */
+}
+
+/* Ensure your existing .sky and other main content are hidden until shown by JS */
+.sky {
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+}
+.sky.show {
+  opacity: 1;
+}
+
+/* Add any necessary styles for cursor-trail-star if not present */
+.cursor-trail-star {
+  position: absolute;
+  font-size: 1.5rem;
+  color: white; /* Adjust color as desired */
+  animation: fadeOutTrail 0.8s forwards;
+  pointer-events: none; /* Allows clicks to pass through */
+  z-index: 1000; /* Ensure it's on top of everything */
+}
+
+@keyframes fadeOutTrail {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+
+/* style.css */
+
+.top-right-name {
+  position: fixed; /* Use fixed so it stays in place when scrolling */
+  top: 20px; /* Adjust as needed for spacing from the top */
+  right: 20px; /* Adjust as needed for spacing from the right */
+  color: white; /* Or any color that contrasts well with your background */
+  font-family: "Poppins", sans-serif; /* Keep consistent with your chosen fonts */
+  font-size: 1.2em; /* Adjust font size as desired */
+  z-index: 1000; /* Ensure it's above other elements */
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.7); /* Subtle glow for readability */
+  transition: opacity 1s ease-in-out; /* Smooth transition for fading in */
+}
+
+/* This class will be added by JavaScript to make the name visible */
+.top-right-name.show-name {
+  opacity: 1;
+}
+
+/* Ensure the footer also has a transition if you want it to fade in */
+footer.show-footer {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+footer {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+/* Existing styles below... */
