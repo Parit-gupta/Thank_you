@@ -3,771 +3,794 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Thank You</title>
-    <link rel="stylesheet" href="style.css" />
+    <title>Sisterpedia 2.0</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap"
       rel="stylesheet"
     />
+    <style>
+      :root {
+        --pink-primary: #ff69b4;
+        --pink-secondary: #ff1493;
+        --pink-light: #ffc0cb;
+        --purple-dark: #8e00a9;
+        --blue-dark: #0d1b2a;
+        --blue-medium: #1b263b;
+        --blue-light: #415a77;
+        --blue-extra-light: #778da9;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Montserrat", sans-serif;
+        background: linear-gradient(
+          180deg,
+          var(--blue-dark) 0%,
+          var(--blue-medium) 30%,
+          var(--blue-light) 60%,
+          var(--blue-extra-light) 100%
+        );
+        overflow-x: hidden;
+        position: relative;
+        min-height: 100vh;
+        color: white;
+        cursor: none; /* Hide default cursor */
+      }
+
+      /* Starry background effect with parallax */
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: radial-gradient(
+            2px 2px at 20px 30px,
+            #fff,
+            transparent
+          ),
+          radial-gradient(
+            2px 2px at 40px 70px,
+            rgba(255, 255, 255, 0.8),
+            transparent
+          ),
+          radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+          radial-gradient(
+            1px 1px at 130px 80px,
+            rgba(255, 255, 255, 0.6),
+            transparent
+          ),
+          radial-gradient(2px 2px at 160px 30px, #fff, transparent);
+        background-repeat: repeat;
+        background-size: 200px 100px;
+        animation: twinkle 4s ease-in-out infinite alternate;
+        pointer-events: none;
+        z-index: 1;
+        transform: translateY(var(--parallax-y, 0)); /* Parallax effect */
+        transition: transform 0.1s ease-out;
+      }
+
+      @keyframes twinkle {
+        0% {
+          opacity: 0.3;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      /* Milky Way effect */
+      body::after {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+          ellipse at center,
+          rgba(255, 192, 203, 0.1) 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+        z-index: 2;
+      }
+
+      header {
+        text-align: center;
+        padding: 3rem 1rem;
+        background: rgba(var(--blue-dark-rgb, 13, 27, 42), 0.8);
+        color: var(--pink-primary);
+        position: relative;
+        z-index: 10;
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid
+          rgba(var(--pink-primary-rgb, 255, 105, 180), 0.3);
+      }
+
+      header h1 {
+        font-size: 3rem;
+        margin: 0;
+        animation: glow 2s infinite alternate;
+      }
+
+      header p {
+        color: var(--pink-light);
+        font-size: 1.2rem;
+      }
+
+      @keyframes glow {
+        from {
+          text-shadow: 0 0 10px var(--pink-primary),
+            0 0 20px var(--pink-primary);
+        }
+        to {
+          text-shadow: 0 0 20px var(--pink-primary),
+            0 0 30px var(--pink-secondary);
+        }
+      }
+
+      .card {
+        width: 320px;
+        height: 200px;
+        margin: 2rem auto;
+        perspective: 1000px;
+        position: relative;
+        z-index: 10;
+      }
+
+      .card-inner {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        transition: transform 0.8s;
+        transform-style: preserve-3d;
+      }
+
+      .card:hover .card-inner {
+        transform: rotateY(180deg);
+      }
+
+      .card-front,
+      .card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px
+          rgba(var(--pink-primary-rgb, 255, 105, 180), 0.3);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.98),
+          rgba(255, 240, 245, 0.95)
+        );
+        color: #333;
+        border: 2px solid rgba(var(--pink-primary-rgb, 255, 105, 180), 0.5);
+      }
+
+      .card-front h2 {
+        margin: 0.5rem 0;
+        color: var(--purple-dark);
+        font-size: 1.5rem;
+      }
+
+      .card-front p {
+        margin: 0.3rem 0;
+        font-size: 1rem;
+      }
+
+      .card-back {
+        transform: rotateY(180deg);
+        background: linear-gradient(
+          135deg,
+          rgba(255, 240, 245, 0.98),
+          rgba(255, 255, 255, 0.95)
+        );
+        padding: 1rem;
+        font-style: italic;
+        text-align: center;
+        color: var(--purple-dark);
+        font-size: 1.1rem;
+      }
+
+      .stats {
+        max-width: 600px;
+        margin: 2rem auto;
+        background: rgba(var(--blue-dark-rgb, 13, 27, 42), 0.8);
+        padding: 2rem;
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(var(--pink-primary-rgb, 255, 105, 180), 0.3);
+        position: relative;
+        z-index: 10;
+      }
+
+      .stat {
+        margin-bottom: 1.5rem;
+      }
+
+      .stat label {
+        display: block;
+        font-weight: bold;
+        color: var(--pink-light);
+        margin-bottom: 0.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+
+      .stat-value {
+        font-size: 1.1em;
+        color: var(--pink-primary);
+        font-weight: bold;
+      }
+
+      .bar-container {
+        background: rgba(255, 255, 255, 0.1);
+        height: 20px;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .bar {
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          var(--pink-primary),
+          var(--pink-secondary)
+        );
+        border-radius: 10px;
+        width: 0;
+        transition: width 1.5s ease;
+        box-shadow: 0 0 10px rgba(var(--pink-primary-rgb, 255, 105, 180), 0.5);
+      }
+
+      .badges {
+        text-align: center;
+        padding: 2rem;
+        position: relative;
+        z-index: 10;
+      }
+
+      .badges h2 {
+        color: var(--pink-primary);
+        margin-bottom: 1.5rem;
+      }
+
+      .badge {
+        display: inline-block;
+        margin: 0.5rem;
+        background: rgba(var(--pink-primary-rgb, 255, 105, 180), 0.2);
+        padding: 0.8rem 1.5rem;
+        border-radius: 25px;
+        color: var(--pink-light);
+        font-weight: bold;
+        border: 2px solid rgba(var(--pink-primary-rgb, 255, 105, 180), 0.5);
+        backdrop-filter: blur(5px);
+        transition: all 0.3s ease;
+      }
+
+      .badge:hover {
+        transform: scale(1.05) translateY(-3px);
+        background: linear-gradient(
+          45deg,
+          rgba(var(--pink-primary-rgb, 255, 105, 180), 0.4),
+          rgba(var(--pink-secondary-rgb, 255, 20, 147), 0.4)
+        );
+        box-shadow: 0 5px 15px rgba(var(--pink-primary-rgb, 255, 105, 180), 0.5);
+      }
+
+      .carousel {
+        padding: 2rem;
+        overflow-x: auto;
+        white-space: nowrap;
+        position: relative;
+        z-index: 10;
+        mask-image: linear-gradient(
+          to right,
+          transparent,
+          black 5%,
+          black 95%,
+          transparent
+        ); /* Fade edges */
+      }
+
+      .carousel-card {
+        display: inline-block;
+        width: 250px;
+        height: 120px;
+        margin-right: 1rem;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(var(--pink-primary-rgb, 255, 105, 180), 0.3);
+        padding: 1.5rem;
+        color: #333;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        border: 1px solid rgba(var(--pink-primary-rgb, 255, 105, 180), 0.3);
+        transition: transform 0.3s ease;
+      }
+
+      .carousel-card:hover {
+        transform: translateY(-5px) scale(1.02);
+      }
+
+      .secret-section {
+        text-align: center;
+        padding: 3rem 1rem;
+        position: relative;
+        z-index: 10;
+      }
+
+      .secret-section button {
+        background: linear-gradient(
+          45deg,
+          var(--pink-primary),
+          var(--pink-secondary)
+        );
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 25px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(var(--pink-primary-rgb, 255, 105, 180), 0.3);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .secret-section button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 20px rgba(var(--pink-primary-rgb, 255, 105, 180), 0.5);
+      }
+
+      #secretContent {
+        display: none;
+        max-width: 500px;
+        margin: 2rem auto 0;
+        background: rgba(255, 255, 255, 0.95);
+        color: #333;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px
+          rgba(var(--pink-primary-rgb, 255, 105, 180), 0.3);
+        border: 2px solid rgba(var(--pink-primary-rgb, 255, 105, 180), 0.5);
+      }
+
+      #secretContent h2 {
+        color: var(--purple-dark);
+      }
+
+      #secretContent ul {
+        text-align: left;
+        line-height: 1.8;
+        list-style: none; /* Remove default list style */
+        padding-left: 0;
+      }
+
+      #secretContent ul li {
+        opacity: 0; /* Hidden initially for typewriter effect */
+      }
+
+      .bubble {
+        position: fixed;
+        width: 40px;
+        height: 40px;
+        background: radial-gradient(
+          circle at 30% 30%,
+          rgba(255, 255, 255, 0.8),
+          rgba(255, 192, 203, 0.3)
+        );
+        border-radius: 50%;
+        animation: float 8s infinite ease-in-out;
+        cursor: pointer;
+        opacity: 0.6;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 0 15px rgba(255, 192, 203, 0.4);
+        z-index: 5;
+        transform-origin: center;
+        transition: transform 0.1s ease-out; /* For squish effect */
+      }
+
+      .bubble:active {
+        transform: scale(0.9); /* Squish effect */
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(100vh) scale(0.5);
+          opacity: 0.8;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-100px) scale(1.2);
+          opacity: 0;
+        }
+      }
+
+      @keyframes pop {
+        0% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(2.5);
+          opacity: 0;
+        }
+      }
+
+      /* Custom Cursor */
+      #custom-cursor {
+        position: fixed;
+        width: 20px;
+        height: 20px;
+        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%23ffc0cb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sparkles"><path d="M12 2v2M4.93 4.93l1.41 1.41M2 12h2M4.93 19.07l1.41-1.41M12 22v-2M19.07 19.07l-1.41-1.41M22 12h-2M19.07 4.93l-1.41 1.41M12 12l2 2 2-2 2 2 2-2"></path></svg>')
+          no-repeat center center;
+        background-size: contain;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition: transform 0.05s ease-out;
+      }
+
+      /* Confetti effect */
+      .confetti {
+        position: fixed;
+        width: 10px;
+        height: 10px;
+        background-color: var(--pink-primary);
+        border-radius: 50%;
+        opacity: 0;
+        animation: confetti-fall 2s ease-out forwards;
+        z-index: 999;
+      }
+
+      @keyframes confetti-fall {
+        0% {
+          transform: translate(0, 0) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(var(--confetti-x, 0), var(--confetti-y, 500px))
+            rotate(var(--confetti-rotate, 720deg));
+          opacity: 0;
+        }
+      }
+
+      /* Typewriter effect */
+      @keyframes typewriter {
+        from {
+          width: 0;
+        }
+        to {
+          width: 100%;
+        }
+      }
+
+      @keyframes blink-caret {
+        from,
+        to {
+          border-color: transparent;
+        }
+        50% {
+          border-color: #333;
+        }
+      }
+
+      .typewriter-text {
+        overflow: hidden; /* Ensures the content is not revealed until the animation */
+        border-right: 0.15em solid orange; /* The typwriter cursor */
+        white-space: nowrap; /* Keeps the content on a single line */
+        margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+        letter-spacing: 0.05em; /* Adjust as needed */
+        animation: typewriter 2s steps(40, end) forwards,
+          blink-caret 0.75s step-end infinite;
+      }
+
+      /* Responsive design */
+      @media (max-width: 768px) {
+        header h1 {
+          font-size: 2rem;
+        }
+
+        .card {
+          width: 280px;
+          height: 180px;
+        }
+
+        .stats {
+          margin: 1rem;
+          padding: 1.5rem;
+        }
+      }
+    </style>
   </head>
-
   <body>
-    <audio id="bg-music" loop>
-      <source src="tenderness.mp3" type="audio/mp3" />
-    </audio>
+    <div id="custom-cursor"></div>
+    <header>
+      <h1>Sisterpedia 2.0</h1>
+      <p>The living legend: Priya 💖</p>
+    </header>
 
-    <audio id="click-sound">
-      <source src="mouse-click-290204.mp3" type="audio/mp3" />
-    </audio>
-
-    <audio id="type-sound">
-      <source src="mouse-click-290204.mp3" type="audio/mp3" />
-    </audio>
-
-    <div id="author-name" class="top-right-name" style="opacity: 0">
-      Parit Gupta
-    </div>
-
-    <div id="start-overlay">
-      <div class="rgb-glow">
-        <button id="start-btn">Start</button>
-        <div class="rgb-waves"></div>
-      </div>
-      <div class="funny-intro-text">
-        <p id="funny-line"></p>
+    <div class="card">
+      <div class="card-inner">
+        <div class="card-front">
+          <h2>Priya Sharma</h2>
+          <p>✨ Queen of Sass</p>
+          <p>🎂 22 years of magic</p>
+        </div>
+        <div class="card-back">"I'm not bossy, I just have better ideas."</div>
       </div>
     </div>
 
-    <div class="image-wrapper">
-      <img src="" class="crazy-img" alt="Collage Image 1" />
-      <img src="" class="crazy-img" alt="Collage Image 2" />
-      <img src="" class="crazy-img" alt="Collage Image 3" />
-      <img src="" class="crazy-img" alt="Collage Image 4" />
-      <img src="" class="crazy-img" alt="Collage Image 5" />
-      <img src="" class="crazy-img" alt="Collage Image 6" />
-      <img src="" class="crazy-img" alt="Collage Image 7" />
-      <img src="" class="crazy-img" alt="Collage Image 8" />
-      <img src="" class="crazy-img" alt="Collage Image 9" />
-      <img src="" class="crazy-img" alt="Collage Image 10" />
-    </div>
-
-    <div id="intro-overlay">
-      <img
-        src="WhatsApp Image 2025-06-21 at 01.23.58_812f7b14.jpg"
-        alt="Cosmic Void"
-      />
-    </div>
-
-    <div class="sky">
-      <div class="sky-overlay"></div>
-      <div class="stars">
-        <div class="aurora"></div>
-      </div>
-
-      <h1 class="typing">
-        Thank You, Didi and Bhaiya for spending time with me!
-      </h1>
-
-      <div class="card-container">
-        <div class="card">
-          <div class="card-image-slider">
-            <img src="1691658549571.jpg" alt="Somya 1" />
-            <img
-              src="WhatsApp Image 2025-06-23 at 18.21.59_e26f18cc.jpg"
-              alt="Somya 2"
-            />
-            <img
-              src="WhatsApp Image 2025-06-23 at 18.21.59_e26f18cc.jpg"
-              alt="Somya 3"
-            />
-          </div>
-          <h2>Somya Didi</h2>
-          <button onclick="openModal('modal1')">Click Here</button>
-        </div>
-
-        <div class="card">
-          <div class="card-image-slider">
-            <img
-              src="WhatsApp Image 2025-06-21 at 00.27.58_29b00553.jpg"
-              alt="Niket 1"
-            />
-            <img src="1731613492852.jpg" alt="Niket 2" />
-            <img src="1731613492852.jpg" alt="Niket 3" />
-          </div>
-          <h2>Niket Bhaiya</h2>
-          <button onclick="openModal('modal2')">Click Here</button>
-        </div>
-
-        <div class="card">
-          <div class="card-image-slider">
-            <img src="1738405215401.jpg" alt="Anand 1" />
-            <img src="1733125014334.jpg" alt="Anand 2" />
-            <img
-              src="WhatsApp Image 2025-06-23 at 18.22.00_105e5279.jpg"
-              alt="Anand 3"
-            />
-          </div>
-          <h2>Anand Bhaiya</h2>
-          <button onclick="openModal('modal3')">Click Here</button>
-        </div>
-
-        <div class="card">
-          <div class="card-image-slider">
-            <img
-              src="WhatsApp Image 2025-06-23 at 18.22.00_6bbffc67.jpg"
-              alt="Sakshi 1"
-            />
-            <img
-              src="WhatsApp Image 2025-06-22 at 00.44.01_fe570723.jpg"
-              alt="Sakshi 2"
-            />
-            <img src="1747112239477.jpg" alt="Sakshi 3" />
-          </div>
-          <h2>Sakshi Didi</h2>
-          <button onclick="openModal('modal4')">Click Here</button>
+    <section class="stats">
+      <div class="stat">
+        <label
+          >Sass Level:
+          <span class="stat-value" data-value="100">0</span>%</label
+        >
+        <div class="bar-container">
+          <div class="bar" data-width="100%"></div>
         </div>
       </div>
-
-      <div id="modal1" class="modal">
-        <div class="modal-content">
-          <span class="close top-right" onclick="closeModal('modal1')"
-            >&times;</span
-          >
-          <h3>Inspired by Somya Didi</h3>
-          <p>
-            Her calm approach and deep insights inspired me to stay composed and
-            think clearly under pressure.
-          </p>
-
-          <div class="photo-gallery">
-            <img
-              src="WhatsApp Image 2025-06-23 at 18.21.59_e26f18cc.jpg"
-              alt="Somya Extra 1"
-            />
-            <img src="1691658549571.jpg" alt="Somya Extra 2" />
-          </div>
-
-          <div class="button-container">
-            <button class="btn-somya" onclick="goToSomyaPage()">
-              Go to Somya's Page
-            </button>
-          </div>
+      <div class="stat">
+        <label
+          >Kindness: <span class="stat-value" data-value="95">0</span>%</label
+        >
+        <div class="bar-container">
+          <div class="bar" data-width="95%"></div>
         </div>
       </div>
-
-      <div id="modal2" class="modal">
-        <div class="modal-content">
-          <span class="close" onclick="closeModal('modal2')">&times;</span>
-          <h3>Inspired by Niket Bhaiya</h3>
-          <p>
-            His mentorship taught me the value of clarity, consistency, and
-            never giving up when things get tough.
-          </p>
-          <div class="photo-gallery">
-            <img src="1731613492852.jpg" alt="Niket Extra 1" />
-            <img
-              src="WhatsApp Image 2025-06-21 at 00.27.58_29b00553.jpg"
-              alt="Niket Extra 2"
-            />
-          </div>
+      <div class="stat">
+        <label
+          >Drama Detection:
+          <span class="stat-value" data-value="110">0</span>%</label
+        >
+        <div class="bar-container">
+          <div class="bar" data-width="110%"></div>
         </div>
       </div>
-
-      <div id="modal3" class="modal">
-        <div class="modal-content">
-          <span class="close" onclick="closeModal('modal3')">&times;</span>
-          <h3>Inspired by Anand Bhaiya</h3>
-          <p>
-            He motivated me with his positive energy and helped me believe in my
-            potential and abilities.
-          </p>
-          <div class="photo-gallery">
-            <img
-              src="WhatsApp Image 2025-06-23 at 18.22.00_105e5279.jpg"
-              alt="Anand Extra"
-            />
-            <img src="1738405215401.jpg" alt="Anand Extra" />
-            <img src="1733125014334.jpg" alt="Anand Extra" />
-          </div>
+      <div class="stat">
+        <label
+          >Hug Quality:
+          <span class="stat-value" data-value="100">0</span>%</label
+        >
+        <div class="bar-container">
+          <div class="bar" data-width="100%"></div>
         </div>
       </div>
+    </section>
 
-      <div id="modal4" class="modal">
-        <div class="modal-content">
-          <span class="close" onclick="closeModal('modal4')">&times;</span>
-          <h3>Inspired by Sakshi Didi</h3>
-          <p>
-            Her leadership and empathy reminded me how powerful kindness is in
-            both tech and life.
-          </p>
-          <div class="photo-gallery">
-            <img src="1747112239477.jpg" alt="Sakshi Extra 1" />
-            <img src="1746166511054.jpg" alt="Sakshi Extra 2" />
-            <img src="1720469259785.jpg" alt="Sakshi Extra 3" />
-            <img
-              src="WhatsApp Image 2025-06-23 at 18.22.00_6bbffc67.jpg"
-              alt="Sakshi Extra 3"
-            />
-            <img
-              src="WhatsApp Image 2025-06-22 at 00.44.01_fe570723.jpg"
-              alt="Sakshi Extra 3"
-            />
-          </div>
-        </div>
+    <section class="badges">
+      <h2>🏅 Achievement Badges</h2>
+      <span class="badge">🎧 Playlist Queen</span>
+      <span class="badge">💄 Makeup Artist</span>
+      <span class="badge">☕ Emotional Support</span>
+      <span class="badge">👑 Family CEO</span>
+    </section>
+
+    <section class="carousel">
+      <div class="carousel-card">💬 Always has the perfect comeback</div>
+      <div class="carousel-card">💄 Eyeliner game: absolutely unstoppable</div>
+      <div class="carousel-card">💃 Turns the kitchen into a dance floor</div>
+      <div class="carousel-card">
+        🧠 Knows everything (seriously, just ask her)
       </div>
-      <div id="image-popup" class="image-popup">
-        <span class="close-popup" onclick="closeImagePopup()">&times;</span>
-        <img id="popup-img" src="" alt="Full Size" />
+      <div class="carousel-card">📸 Born to be photographed</div>
+      <div class="carousel-card">
+        🎵 Creates the best playlists for every mood
       </div>
-      <footer>
-        <p>
-          With heartfelt gratitude,<br />
-          Parit Gupta<br />
-          Summer Internship 2025
-        </p>
-      </footer>
-    </div>
+    </section>
+
+    <section class="secret-section">
+      <button onclick="revealSecretContent(); this.style.display='none';">
+        Reveal Secret Files 👀
+      </button>
+      <div id="secretContent">
+        <h2>💌 Inside Jokes & Precious Moments</h2>
+        <ul>
+          <li>That legendary time she roasted dad... and completely won 🔥</li>
+          <li>
+            Her dramatic "I'm leaving forever" act (but only goes to the
+            kitchen) 🎭
+          </li>
+          <li>
+            Calls you "loser" but gives the warmest hugs when you're sad 🥺
+          </li>
+          <li>Has an opinion about everything and is usually right 💯</li>
+          <li>Can detect fake people from miles away 🕵️‍♀️</li>
+        </ul>
+      </div>
+    </section>
 
     <script>
-      function openImagePopup(src) {
-        const popup = document.getElementById("image-popup");
-        const popupImg = document.getElementById("popup-img");
-        popupImg.src = src;
-        popup.style.display = "flex";
-      }
+      // Function to animate stat bars and numbers
+      function animateStats() {
+        document.querySelectorAll(".bar").forEach((bar) => {
+          const targetWidth = bar.getAttribute("data-width");
+          bar.style.width = targetWidth;
 
-      function closeImagePopup() {
-        document.getElementById("image-popup").style.display = "none";
-      }
+          const statValueSpan = bar
+            .closest(".stat")
+            .querySelector(".stat-value");
+          if (statValueSpan) {
+            const dataValue = parseInt(
+              statValueSpan.getAttribute("data-value")
+            );
+            let current = 0;
+            const increment = dataValue / 50; // Adjust for smoother animation
 
-      document.addEventListener("DOMContentLoaded", () => {
-        document.querySelectorAll(".photo-gallery img").forEach((img) => {
-          img.addEventListener("click", () => openImagePopup(img.src));
-        });
-      });
-    </script>
-
-    <script>
-      function goToSomyaPage() {
-        window.location.href = "Somya.html"; // Make sure this file exists
-      }
-    </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-    <script>
-      let confettiInstance;
-
-      function openModal(id) {
-        const clickSound = document.getElementById("click-sound");
-        clickSound.currentTime = 0;
-        clickSound
-          .play()
-          .catch((error) => console.error("Error playing click sound:", error));
-
-        const modal = document.getElementById(id);
-        modal.style.display = "flex";
-
-        confettiInstance = setInterval(() => {
-          confetti({
-            particleCount: 50,
-            spread: 120,
-            startVelocity: 45,
-            origin: { y: 0.8, x: Math.random() },
-            colors: ["#ff0000", "#00ff00", "#0000ff", "#ffff00", "#ff00ff"],
-          });
-        }, 150);
-        setTimeout(() => clearInterval(confettiInstance), 2500);
-
-        const images = modal.querySelectorAll(".photo-gallery img");
-        images.forEach((img) => {
-          img.classList.remove("fade-zoom");
-          void img.offsetWidth; // Trigger reflow
-          img.classList.add("fade-zoom");
+            const interval = setInterval(() => {
+              current += increment;
+              if (current >= dataValue) {
+                current = dataValue;
+                clearInterval(interval);
+              }
+              statValueSpan.textContent = Math.floor(current);
+            }, 30); // Milliseconds per step
+          }
         });
       }
 
-      function closeModal(id) {
-        const modal = document.getElementById(id);
-        const content = modal.querySelector(".modal-content");
+      // Create and animate magical bubbles
+      function createBubble() {
+        let bubble = document.createElement("div");
+        bubble.className = "bubble";
+        bubble.style.left = Math.random() * (window.innerWidth - 40) + "px";
+        bubble.style.animationDuration = 6 + Math.random() * 4 + "s";
+        bubble.style.animationDelay = Math.random() * 2 + "s";
 
-        content.classList.add("closing");
+        bubble.onclick = function () {
+          bubble.style.animation = "pop 0.4s ease-out forwards";
+          setTimeout(() => bubble.remove(), 400);
+          // Create sparkle effect
+          for (let i = 0; i < 5; i++) {
+            let sparkle = document.createElement("div");
+            sparkle.style.position = "fixed";
+            sparkle.style.left = bubble.offsetLeft + "px";
+            sparkle.style.top = bubble.offsetTop + "px";
+            sparkle.style.width = "4px";
+            sparkle.style.height = "4px";
+            sparkle.style.background = "#ff69b4";
+            sparkle.style.borderRadius = "50%";
+            sparkle.style.animation = "pop 0.6s ease-out forwards";
+            sparkle.style.transform = `translate(${
+              (Math.random() - 0.5) * 50
+            }px, ${(Math.random() - 0.5) * 50}px)`;
+            document.body.appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 600);
+          }
+        };
 
+        document.body.appendChild(bubble);
+
+        // Remove bubble after animation
         setTimeout(() => {
-          modal.style.display = "none";
-          content.classList.remove("closing");
-        }, 300);
+          if (bubble.parentNode) {
+            bubble.remove();
+          }
+        }, 10000);
+      }
 
-        if (confettiInstance) {
-          clearInterval(confettiInstance);
+      // Custom cursor
+      const customCursor = document.getElementById("custom-cursor");
+      document.addEventListener("mousemove", (e) => {
+        customCursor.style.left = e.clientX + "px";
+        customCursor.style.top = e.clientY + "px";
+      });
+
+      // Parallax effect for starry background
+      document.addEventListener("scroll", () => {
+        const scrolled = window.pageYOffset;
+        document.body.style.setProperty("--parallax-y", `-${scrolled * 0.1}px`);
+      });
+
+      // Confetti animation
+      function createConfetti() {
+        for (let i = 0; i < 50; i++) {
+          const confetti = document.createElement("div");
+          confetti.className = "confetti";
+          confetti.style.left = Math.random() * 100 + "vw";
+          confetti.style.top =
+            Math.random() * -20 + "vh"; /* Start above view */
+          confetti.style.backgroundColor = `hsl(${
+            Math.random() * 360
+          }, 100%, 70%)`;
+          confetti.style.setProperty(
+            "--confetti-x",
+            `${(Math.random() - 0.5) * 600}px`
+          );
+          confetti.style.setProperty(
+            "--confetti-y",
+            `${window.innerHeight + 100}px`
+          );
+          confetti.style.setProperty(
+            "--confetti-rotate",
+            `${Math.random() * 1000}deg`
+          );
+          document.body.appendChild(confetti);
+
+          setTimeout(() => {
+            confetti.remove();
+          }, 2000);
         }
       }
 
-      document.addEventListener("DOMContentLoaded", () => {
-        const startBtn = document.getElementById("start-btn");
-        const funnyText = document.getElementById("funny-line");
-        const intro = document.getElementById("intro-overlay");
-        const mainSky = document.querySelector(".sky");
-        const bgMusic = document.getElementById("bg-music");
-        const typeSound = document.getElementById("type-sound");
-        const starsContainer = document.querySelector(".stars");
-        const typingHeading = document.querySelector(".typing");
-        const authorName = document.getElementById("author-name"); // Get the author name element
-
-        // NEW: Get the image-wrapper and crazy-img elements
-        const imageWrapper = document.querySelector(".image-wrapper");
-        const crazyImages = imageWrapper.querySelectorAll(".crazy-img");
-
-        let continuousStarInterval;
-        let meteorShowerTimeout;
-        let meteorShowerActive = false;
-        let activeShootingStarsCount = 0;
-        let dynamicStylesheet;
-
-        if (document.styleSheets.length === 0) {
-          const style = document.createElement("style");
-          document.head.appendChild(style);
+      // Typewriter effect for secret content
+      function typeWriter(element, text, i, callback) {
+        if (i < text.length) {
+          element.innerHTML += text.charAt(i);
+          setTimeout(() => typeWriter(element, text, i + 1, callback), 50); // Typing speed
+        } else if (callback) {
+          callback();
         }
-        dynamicStylesheet = document.styleSheets[0];
+      }
 
-        const MIN_STARS_ALWAYS_VISIBLE = 6;
-        const METEOR_SHOWER_MIN_BURST = 8;
-        const METEOR_SHOWER_MAX_BURST = 15;
-        const TOTAL_SHOWER_STARS_CAP = 120;
+      function revealSecretContent() {
+        const secretContent = document.getElementById("secretContent");
+        secretContent.style.display = "block";
+        createConfetti(); // Trigger confetti on reveal
 
-        // REMOVE the old animateGPImages() if you are not using it.
-        // If you want to keep the old one-by-one animation, you'll need to
-        // re-evaluate the flow and maybe rename this new function.
-        // For now, I'm assuming the new "scattered then grid" is what you want.
-
-        function animateCollageReveal() {
-          // Initial state for the collage wrapper
-          imageWrapper.style.display = "block"; // Make sure wrapper is visible
-          imageWrapper.style.opacity = 0; // Start faded out
-          imageWrapper.classList.remove("final-layout"); // Ensure no final layout class initially
-
-          const placedImages = []; // To store the rectangles of placed images
-
-          // Step 1: Random initial positions/sizes before reveal, avoiding overlaps
-          crazyImages.forEach((img) => {
-            let placed = false;
-            let attempts = 0;
-            const maxAttempts = 100; // Limit attempts to prevent infinite loops
-
-            while (!placed && attempts < maxAttempts) {
-              const size = 150 + Math.random() * 100; // Sizes between 150px and 250px
-              // Use a buffer to ensure images don't go off-screen and have some margin
-              const buffer = 50;
-              const randomTop = Math.floor(
-                Math.random() * (window.innerHeight - size - buffer * 2) +
-                  buffer
-              );
-              const randomLeft = Math.floor(
-                Math.random() * (window.innerWidth - size - buffer * 2) + buffer
-              );
-
-              const newRect = {
-                left: randomLeft,
-                top: randomTop,
-                right: randomLeft + size,
-                bottom: randomTop + size,
-              };
-
-              let overlaps = false;
-              for (const existingRect of placedImages) {
-                // Simple AABB collision detection
-                if (
-                  newRect.left < existingRect.right &&
-                  newRect.right > existingRect.left &&
-                  newRect.top < existingRect.bottom &&
-                  newRect.bottom > existingRect.top
-                ) {
-                  overlaps = true;
-                  break;
-                }
-              }
-
-              if (!overlaps) {
-                img.style.width = size + "px";
-                img.style.height = size + "px";
-                img.style.top = newRect.top + "px";
-                img.style.left = newRect.left + "px";
-                img.style.transform =
-                  "scale(0.8) rotate(" + (Math.random() * 60 - 30) + "deg)";
-                img.style.opacity = 0; // Ensure hidden
-                img.style.position = "absolute"; // Ensure absolute for scatter
-
-                placedImages.push(newRect); // Store the successfully placed image's rectangle
-                placed = true;
-              }
-              attempts++;
-            }
-
-            // If maxAttempts reached and still overlapping, place it anyway
-            if (!placed) {
-              // console.warn("Could not find non-overlapping spot for an image after max attempts.");
-              // Fallback: Just place it randomly if overlap couldn't be avoided
-              const size = 150 + Math.random() * 100;
-              img.style.width = size + "px";
-              img.style.height = size + "px";
-              img.style.top =
-                Math.floor(Math.random() * (window.innerHeight - size)) + "px";
-              img.style.left =
-                Math.floor(Math.random() * (window.innerWidth - size)) + "px";
-              img.style.transform =
-                "scale(0.8) rotate(" + (Math.random() * 60 - 30) + "deg)";
-              img.style.opacity = 0;
-              img.style.position = "absolute";
-            }
-          });
-
-          // Fade in the whole wrapper
+        const listItems = secretContent.querySelectorAll("li");
+        let delay = 0;
+        listItems.forEach((item, index) => {
+          const originalText = item.textContent;
+          item.textContent = ""; // Clear text for typing effect
           setTimeout(() => {
-            imageWrapper.style.opacity = 1;
-          }, 100); // Small delay to allow initial setup to apply
-
-          // Step 2: Reveal with animation one by one
-          crazyImages.forEach((img, index) => {
-            setTimeout(() => {
-              img.style.opacity = 1;
-              img.style.transform =
-                "scale(1) rotate(" + (Math.random() * 30 - 15) + "deg)";
-            }, index * 400 + 500); // Staggered reveal + initial delay
-          });
-
-          // Step 3: Transition to final fullscreen grid layout after individual animations complete
-          const totalIndividualAnimationTime = crazyImages.length * 400;
-          const delayBeforeGridTransition = 1500;
-          const gridTransitionDuration = 1000;
-
-          setTimeout(() => {
-            // Apply the grid layout to the wrapper
-            imageWrapper.classList.add("final-layout");
-
-            // Fade out the collage after it has been in the grid layout for a bit
-            setTimeout(() => {
-              imageWrapper.style.opacity = 0; // Fade out the entire collage
-              setTimeout(() => {
-                imageWrapper.style.display = "none"; // Hide after fading
-                showIntroOverlay(); // Trigger the intro-overlay after collage fades out
-                console.log("Collage faded out, moving to intro overlay.");
-              }, 1000); // Duration of fade-out
-            }, gridTransitionDuration + 2000); // Show collage for 2 seconds in grid before fading out
-          }, totalIndividualAnimationTime + delayBeforeGridTransition);
-        }
-
-        function showIntroOverlay() {
-          const intro = document.getElementById("intro-overlay");
-          const mainSky = document.querySelector(".sky");
-          const typingHeading = document.querySelector(".typing");
-
-          intro.style.display = "flex"; // Make intro overlay visible
-          setTimeout(() => {
-            intro.classList.add("active"); // Start fade in
-
-            setTimeout(() => {
-              intro.classList.add("fade-out"); // Start fade out
-
-              setTimeout(() => {
-                intro.style.display = "none"; // Hide after fade out
-                mainSky.classList.add("show"); // Show main sky content
-                typingHeading.classList.add("start-typing", "bouncy"); // Start typing animation
-
-                document.querySelectorAll(".floating-text").forEach((ft) => {
-                  ft.style.opacity = 1;
-                });
-
-                // Show author name here
-                authorName.style.opacity = 1;
-                authorName.classList.add("show-name"); // Add class for transition
-
-                setTimeout(() => {
-                  document
-                    .querySelector(".card-container")
-                    .classList.add("show-cards");
-                }, 4000);
-
-                setTimeout(() => {
-                  document.querySelector("footer").classList.add("show-footer");
-                }, 6000);
-
-                startContinuousShootingStars();
-                scheduleMeteorShower();
-              }, 2000); // Delay for intro overlay fade-out
-            }, 3000); // Delay before intro starts fading out
-          }, 50);
-        }
-
-        startBtn.addEventListener("click", async () => {
-          try {
-            await bgMusic.play();
-            console.log("Background music started successfully.");
-          } catch (error) {
-            console.error("Error playing background music:", error);
-            alert(
-              "Audio playback failed. Please allow audio for this site or click anywhere to enable sound."
-            );
-          }
-
-          const funnyLines = [
-            "🚀 Launching Feelz Rocket...",
-            "💖 Packing gratitude...",
-            "🎯 Target locked: Hearts!",
-            "✨ Countdown started...",
-            "P.S. Hope you brought snacks!",
-            "Brace for maximum appreciation!",
-          ];
-
-          let i = 0;
-
-          function typeNext() {
-            if (i < funnyLines.length) {
-              funnyText.textContent = funnyLines[i];
-              typeSound.currentTime = 0;
-              typeSound
-                .play()
-                .catch((error) =>
-                  console.error("Error playing type sound:", error)
-                );
-              i++;
-              setTimeout(typeNext, 700);
-            } else {
-              document.getElementById("start-overlay").style.display = "none";
-              animateCollageReveal(); // Call the new collage animation after typing
-            }
-          }
-          typeNext();
+            item.style.opacity = 1;
+            typeWriter(item, originalText, 0);
+          }, delay);
+          delay += 1500; // Delay for each list item
         });
+      }
 
-        const removeKeyframes = (name) => {
-          for (let i = 0; i < dynamicStylesheet.cssRules.length; i++) {
-            if (dynamicStylesheet.cssRules[i].name === name) {
-              dynamicStylesheet.deleteRule(i);
-              break;
-            }
-          }
-        };
+      // Initial load animations
+      window.addEventListener("DOMContentLoaded", () => {
+        setTimeout(() => {
+          animateStats();
+        }, 500);
 
-        for (let i = 0; i < 8; i++) {
-          createGlowingCircle();
+        // Create bubbles periodically
+        for (let i = 0; i < 15; i++) {
+          setTimeout(createBubble, i * 800);
+        }
+        setInterval(createBubble, 1200);
+
+        // Define CSS variables for RGB values
+        const root = document.documentElement;
+        const pinkPrimary =
+          getComputedStyle(root).getPropertyValue("--pink-primary");
+        const pinkSecondary =
+          getComputedStyle(root).getPropertyValue("--pink-secondary");
+        const blueDark = getComputedStyle(root).getPropertyValue("--blue-dark");
+
+        function hexToRgb(hex) {
+          const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+          return result
+            ? `${parseInt(result[1], 16)}, ${parseInt(
+                result[2],
+                16
+              )}, ${parseInt(result[3], 16)}`
+            : null;
         }
 
-        const createShootingStar = (
-          customStartX = null,
-          customStartY = null,
-          customAngle = null,
-          customDuration = null
-        ) => {
-          const shoot = document.createElement("div");
-          shoot.classList.add("shooting-star");
-
-          const viewportWidth = window.innerWidth;
-          const viewportHeight = window.innerHeight;
-
-          let startX, startY;
-          if (customStartX !== null && customStartY !== null) {
-            startX = customStartX;
-            startY = customStartY;
-          } else {
-            const edgeChoice = Math.random();
-            if (edgeChoice < 0.5) {
-              startX = Math.random() * viewportWidth * 0.8;
-              startY = -100;
-            } else {
-              startX = -100;
-              startY = Math.random() * viewportHeight * 0.8;
-            }
-          }
-
-          const angle =
-            customAngle !== null ? customAngle : Math.random() * 40 + 30;
-
-          const travelDistance = Math.random() * 1000 + 1500;
-
-          const angleRad = angle * (Math.PI / 180);
-          const endX = startX + travelDistance * Math.cos(angleRad);
-          const endY = startY + travelDistance * Math.sin(angleRad);
-
-          const duration =
-            customDuration !== null
-              ? customDuration
-              : Math.random() * 1.5 + 3.5;
-          const delay = 0;
-
-          const animationName = `shoot-star-${Date.now()}-${Math.random()
-            .toString(36)
-            .substring(7)}`;
-
-          const keyframesRule = `@keyframes ${animationName} {
-                                                from {
-                                                    transform: translate(${startX}px, ${startY}px) rotate(${angle}deg);
-                                                    opacity: 0.8;
-                                                }
-                                                to {
-                                                    transform: translate(${endX}px, ${endY}px) rotate(${angle}deg);
-                                                    opacity: 0;
-                                                }
-                                            }`;
-          try {
-            dynamicStylesheet.insertRule(
-              keyframesRule,
-              dynamicStylesheet.cssRules.length
-            );
-          } catch (e) {
-            console.warn("Failed to insert keyframe rule:", e);
-            return;
-          }
-
-          shoot.style.animation = `${animationName} ${duration}s linear ${delay}s forwards`;
-          shoot.style.width = `${Math.random() * 100 + 150}px`;
-          shoot.style.height = `3px`;
-
-          starsContainer.appendChild(shoot);
-          activeShootingStarsCount++;
-
-          shoot.addEventListener("animationend", () => {
-            shoot.remove();
-            activeShootingStarsCount--;
-            removeKeyframes(animationName);
-          });
-        };
-
-        const startContinuousShootingStars = () => {
-          continuousStarInterval = setInterval(() => {
-            if (
-              !meteorShowerActive &&
-              activeShootingStarsCount < MIN_STARS_ALWAYS_VISIBLE
-            ) {
-              createShootingStar();
-            } else if (
-              meteorShowerActive &&
-              activeShootingStarsCount > TOTAL_SHOWER_STARS_CAP + 50
-            ) {
-              // Safety valve
-            }
-          }, 300);
-        };
-
-        const startMeteorShower = () => {
-          if (meteorShowerActive) return;
-
-          meteorShowerActive = true;
-          console.log("Meteor Shower START!");
-
-          let showerStarsGenerated = 0;
-          const showerBurstInterval = 100;
-
-          const showerRepeater = setInterval(() => {
-            if (showerStarsGenerated < TOTAL_SHOWER_STARS_CAP) {
-              const starsInThisBurst =
-                Math.floor(
-                  Math.random() *
-                    (METEOR_SHOWER_MAX_BURST - METEOR_SHOWER_MIN_BURST + 1)
-                ) + METEOR_SHOWER_MIN_BURST;
-
-              for (let i = 0; i < starsInThisBurst; i++) {
-                const startX = Math.random() * window.innerWidth * 0.4;
-                const startY = Math.random() * window.innerHeight * 0.3 - 50;
-                const angle = Math.random() * 20 + 50;
-                const duration = Math.random() * 1 + 2.5;
-                const delay = Math.random() * 0.5;
-                setTimeout(
-                  () => createShootingStar(startX, startY, angle, duration),
-                  delay * 1000
-                );
-              }
-              showerStarsGenerated += starsInThisBurst;
-            } else {
-              clearInterval(showerRepeater);
-              meteorShowerActive = false;
-              console.log("Meteor Shower END!");
-              scheduleMeteorShower();
-            }
-          }, showerBurstInterval);
-        };
-
-        const scheduleMeteorShower = () => {
-          const nextShowerDelay = Math.random() * 45000 + 30000;
-          meteorShowerTimeout = setTimeout(startMeteorShower, nextShowerDelay);
-        };
-
-        function createGlowingCircle() {
-          const circle = document.createElement("div");
-          circle.classList.add("glowing-circle");
-
-          const size = Math.random() * 40 + 20;
-          circle.style.width = `${size}px`;
-          circle.style.height = `${size}px`;
-          circle.style.left = `${Math.random() * 100}vw`;
-          circle.style.top = `${Math.random() * 100}vh`;
-          circle.style.animationDelay = `${Math.random() * 2}s`;
-
-          const colors = [
-            { base: "255, 0, 153" },
-            { base: "0, 200, 255" },
-            { base: "255, 255, 0" },
-            { base: "144, 238, 144" },
-          ];
-
-          const selected =
-            colors[Math.floor(Math.random() * colors.length)].base;
-
-          circle.style.background = `radial-gradient(
-                                    circle,
-                                    rgba(255, 255, 255, 0) 60%,
-                                    rgba(${selected}, 0.15) 75%,
-                                    rgba(${selected}, 0.3) 85%,
-                                    rgba(255, 255, 255, 0) 100%
-                                )`;
-
-          document.querySelector(".stars").appendChild(circle);
-        }
-
-        for (let i = 0; i < 400; i++) {
-          const star = document.createElement("span");
-          Object.assign(star.style, {
-            position: "absolute",
-            width: `${Math.random() * 2 + 1}px`,
-            height: `${Math.random() * 2 + 1}px`,
-            borderRadius: "50%",
-            background: "white",
-            top: `${Math.random() * 100}vh`,
-            left: `${Math.random() * 100}vw`,
-            animation: "blinkStar 2s infinite ease-in-out",
-            animationDelay: `${Math.random() * 5}s`,
-            opacity: 0.2,
-          });
-          starsContainer.appendChild(star);
-        }
-
-        document.querySelectorAll(".card-image-slider").forEach((slider) => {
-          const images = slider.querySelectorAll("img");
-          let current = 0;
-          if (images.length > 0) {
-            images[current].classList.add("active");
-          }
-
-          setInterval(() => {
-            if (images.length === 0) return;
-            images[current].classList.remove("active");
-            current = (current + 1) % images.length;
-            images[current].classList.add("active");
-          }, 2000);
-        });
-
-        document.addEventListener("mousemove", (e) => {
-          const star = document.createElement("div");
-          star.classList.add("cursor-trail-star");
-          star.textContent = "★";
-
-          star.style.left = `${e.clientX}px`;
-          star.style.top = `${e.clientY}px`;
-
-          document.body.appendChild(star);
-
-          setTimeout(() => {
-            star.remove();
-          }, 800);
-        });
+        root.style.setProperty("--pink-primary-rgb", hexToRgb(pinkPrimary));
+        root.style.setProperty("--pink-secondary-rgb", hexToRgb(pinkSecondary));
+        root.style.setProperty("--blue-dark-rgb", hexToRgb(blueDark));
       });
     </script>
   </body>
