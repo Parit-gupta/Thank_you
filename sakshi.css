@@ -1,0 +1,145 @@
+body {
+  margin: 0;
+  overflow: hidden; /* Keep this to prevent scrollbars from the animation */
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  background: radial-gradient(circle at center, #0f0c29, #302b63, #24243e);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh; /* Ensure body takes full viewport height */
+}
+
+.main-content {
+  position: relative;
+  z-index: 1; /* This is fine, #story's high z-index will place it above */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%; /* Ensure it spans the width to allow story to show behind */
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 10px #fff;
+  }
+  to {
+    text-shadow: 0 0 20px #ff00cc, 0 0 30px #ff00cc;
+  }
+}
+
+button {
+  background: #ff00cc;
+  border: none;
+  color: white;
+  font-size: 1.3rem;
+  padding: 12px 24px;
+  border-radius: 30px;
+  cursor: pointer;
+  animation: pulse 1.2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.mind-output {
+  margin-top: 2rem;
+  font-size: 1.5rem;
+  border: 2px dashed #ff00cc;
+  padding: 20px;
+  width: 60%;
+  height: 100px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.bubble {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  animation: float 10s linear forwards;
+  cursor: pointer;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  pointer-events: auto;
+  z-index: 1000;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(100vh);
+  }
+  100% {
+    transform: translateY(-10vh);
+  }
+}
+
+.pop-animation {
+  animation: none !important;
+  transform: scale(1.8);
+  opacity: 0;
+}
+
+#story {
+  position: fixed;
+  top: 100vh;
+  left: 0;
+  width: 100%;
+  z-index: 999; /* Ensure it's on top of everything else */
+  color: rgba(255, 255, 255, 0.5); /* Your intended faint color */
+  font-weight: bold;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+  text-align: center;
+  padding: 0 10vw;
+  line-height: 2;
+  animation: scrollStory 60s linear infinite; /* Animation speed */
+  pointer-events: none;
+  box-sizing: border-box;
+  white-space: normal;
+}
+
+@keyframes scrollStory {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-150vh);
+  }
+}
+
+.pop-text {
+  position: absolute;
+  color: #ffccff;
+  font-size: 1.2rem;
+  font-weight: bold;
+  animation: riseUp 1s ease-out forwards;
+  pointer-events: none;
+  z-index: 2000;
+}
+
+@keyframes riseUp {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+}

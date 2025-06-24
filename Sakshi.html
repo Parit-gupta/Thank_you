@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mind Reading Portal</title>
+  <link rel="stylesheet" href="sakshi.css">
+</head>
+<body>
+
+  <audio id="bg-music" src="128-Tum Se Hi - Jab We Met 128 Kbps.mp3" loop></audio>
+
+  <div id="story">
+    <p>
+      <h1>From Silence to Smiles — The Story of a Special Internship</h1>
+      When I began my 45-day internship, the first 15 days were exactly what I expected — pure work. No fun, no familiar faces, just tasks, deadlines, and silent lunch breaks. As an introvert, I didn’t mind. I was used to keeping to myself, staying in my comfort zone, and quietly getting the job done.
+      But one day, something changed.
+      My mentor introduced me to a group of people. They were warm, loud, cheerful, and genuinely welcoming — everything I wasn’t prepared for. I didn’t know how to respond. For the next four days, I stayed distant. I smiled politely, but deep down, I was still running away, hiding in my little shell.
+      But slowly, something shifted.
+      I began talking to them. I began listening. And then, I started laughing. I sat with them during breaks, shared stories, and found myself looking forward to every conversation. That cold workspace slowly turned into a place filled with warmth, jokes, and the kind of support you don’t expect but feel lucky to receive.
+      And in the middle of this newfound comfort, I met someone special — Di.
+      Always smiling. Always cheering. The first thing I noticed was her energy — bubbly, bright, and magnetic. But the more I spoke to her, the more I realized she wasn’t just sweet and fun — she was something else entirely.
+      Cool. Caring. Hardworking. Focused.
+      She was the kind of person who could light up a room just by being in it. But behind that cheerful energy was someone always pushing herself to grow. Whether it was studying after work, improving her English, or mastering new skills — she was constantly evolving. She made hard work look effortless and kindness feel natural.
+      And oh — don’t be fooled by that angelic smile. Deep down, she’s a total gangster in words — quick-witted, sharp, and hilariously savage when she wants to be. 😎
+      And then came the real magic…
+      Till now, I’ve never met anyone so smart, so open-minded, and so cherishable. I genuinely loved every second I got to spend — from working together, to eating together, to playing, laughing, and even just roaming aimlessly. Every moment felt easy, light, and special. Like time forgot to rush when I was around all of you.
+      From avoiding people to finding friends.
+      From quiet days to unforgettable memories.
+      From working alone to working together.
+      From strangers… to a family.
+      This internship became one of the best experiences of my life — not because of the tasks, but because of the people. Because of all four of you — each one of you made it beautiful in your own unique way.
+      hank you for being the heart, the fun, the strength, and the chaos that made every day worth remembering. ❤️
+    </p>
+  </div>
+
+  <div class="main-content">
+    <h1>🧠 Welcome to the Mind Reading Portal 🧠</h1>
+    <button onclick="startReading()">Read My Mind</button>
+    <div class="mind-output" id="output"></div>
+  </div>
+
+  <audio id="pop" src="sharp-pop-328170.mp3" preload="auto"></audio>
+
+  <script>
+    const lines = [
+      "You’re not thinking about work... you’re thinking about chai again, aren’t you? ☕😏",
+      "Your brain is 60% tea, 40% anda... confirmed. � + ☕🍳",
+      "Didi detected: low on caffeine. Please insert chai now! 🔄",
+      "Your future: endless chai cups and anda bhurji with love. 💫",
+      "Scientific Fact: Didi without anda = Error 404. 💻🍳",
+      "Mornings don’t begin until you sip that golden elixir — chai. 🌞☕",
+      "You think clearer when you hold a cup of chai. It’s magic. 🔮",
+      "If love had a flavor, yours would taste like masala chai & buttered anda toast. 🧈❤️",
+      "Honestly, you're not addicted... you're spiritually connected to chai. 🧘‍♀️☕",
+      "Your password is probably 'ilovechai123'. 🤫😂",
+      "Pop goes the anda! 🍳💥",
+      "This bubble smells like chai. ☕🫧",
+      "You should be drinking chai right now. 😋",
+      "Chai aur coding – both warm your soul. 🔥💻",
+      "Click here to get anda toast (jk). 😂",
+      "One anda a day keeps your mood OK. 🍳😄",
+      "Behind every successful didi is a strong cup of chai. ☕👑"
+    ];
+
+    let i = 0;
+function startReading() {
+  const output = document.getElementById("output");
+  output.textContent = "";
+
+  // 🎵 Play music if paused
+  const bgMusic = document.getElementById("bg-music");
+  if (bgMusic.paused) {
+    bgMusic.play();
+  }
+
+  let text = lines[i % lines.length];
+  i++;
+
+  let idx = 0;
+  const type = setInterval(() => {
+    output.textContent += text.charAt(idx);
+    idx++;
+    if (idx >= text.length) clearInterval(type);
+  }, 50);
+}
+
+    const popTexts = [
+      "🌟 Poof!",
+      "✨ Zing!",
+      "💫 Zap!",
+      "💖 Pop!",
+      "🎉 Booyah!",
+      "🎈 Gone!",
+      "🌈 Whoosh!",
+      "💨 Pffft!",
+      "💥 Nice!",
+      "🔥 Lit!",
+      "🪄 Magic!",
+      "💯 Awesome!"
+    ];
+
+    function createBubble() {
+      const bubble = document.createElement('div');
+      bubble.classList.add('bubble');
+      bubble.style.left = Math.random() * 100 + 'vw';
+      const size = Math.random() * 40 + 20;
+      bubble.style.width = bubble.style.height = size + 'px';
+      document.body.appendChild(bubble);
+
+      bubble.addEventListener('click', () => {
+        const pop = document.getElementById("pop");
+        pop.currentTime = 0;
+        pop.play();
+
+        const rect = bubble.getBoundingClientRect();
+        const x = rect.left + rect.width / 2;
+        const y = rect.top + rect.height / 2;
+
+        const textSpan = document.createElement('span');
+        textSpan.classList.add('pop-text');
+        textSpan.textContent = popTexts[Math.floor(Math.random() * popTexts.length)];
+
+        textSpan.style.left = x + 'px';
+        textSpan.style.top = y + 'px';
+
+        document.body.appendChild(textSpan);
+
+        setTimeout(() => {
+          textSpan.remove();
+        }, 1000);
+
+        bubble.classList.add('pop-animation');
+        setTimeout(() => bubble.remove(), 300);
+      });
+
+      setTimeout(() => {
+        if (document.body.contains(bubble)) {
+          bubble.remove();
+        }
+      }, 10000);
+    }
+
+    setInterval(createBubble, 800);
+  </script>
+
+</body>
+</html>
