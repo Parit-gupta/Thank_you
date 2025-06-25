@@ -82,39 +82,45 @@ body {
   }
 }
 
-/* Flying Word (from cigarette) Styling */
 .word {
   position: absolute;
-  bottom: 100px; /* Starting low near cigarette */
-  left: 315px; /* Starting near cigarette tip */
-  font-size: 18px;
-  color: rgba(255, 255, 255, 0.75);
-  animation: riseWord 6s ease-in-out forwards; /* Animation duration and fill-mode */
-  white-space: nowrap; /* Prevent word wrapping */
-  pointer-events: none; /* Make it non-interactive */
-  filter: blur(0.4px); /* Slight blur for atmospheric effect */
-  z-index: 5; /* Above cigarette and ash */
+  color: #ffffffcc;
+  font-size: 16px;
+  white-space: nowrap;
+  animation: riseAndDrift 9s ease-in-out forwards;
+  pointer-events: none;
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.4);
 }
-
-@keyframes riseWord {
+@keyframes riseAndDrift {
   0% {
-    transform: translate(0, 0) scale(0.8) rotate(0deg);
-    opacity: 0;
-  }
-  30% {
-    opacity: 1; /* Fully opaque during middle of animation */
+    opacity: 0.9;
+    transform: translate(0, 0) rotate(0deg);
   }
   50% {
-    transform: translate(-20px, -100px) scale(1) rotate(-5deg);
-    opacity: 0.8;
-  }
-  80% {
-    transform: translate(20px, -200px) scale(1.1) rotate(10deg);
-    opacity: 0.4;
+    transform: translate(calc(var(--rand-x, 0) * 1px), -50vh) rotate(3deg);
+    opacity: 0.6;
   }
   100% {
-    transform: translate(-15px, -300px) scale(1.3) rotate(-10deg);
-    opacity: 0; /* Fades out completely */
+    opacity: 0;
+    transform: translate(calc(var(--rand-x, 0) * 2px), -100vh) rotate(-2deg);
+  }
+}
+
+/* New animation for words coming from smoke */
+@keyframes rise-from-smoke {
+  0% {
+    transform: translate(0, 0) scale(0.8);
+    opacity: 0; /* Start invisible */
+    filter: blur(4px); /* Start blurry */
+  }
+  15% {
+    opacity: 1; /* Become fully visible */
+    filter: blur(0px); /* Clear up */
+  }
+  100% {
+    transform: translate(calc(var(--rand-x) * 1px), -150px) scale(1); /* Move up and slightly varied horizontally */
+    opacity: 0; /* Fade out */
+    filter: blur(2px); /* Slight blur as it disappears */
   }
 }
 
@@ -165,7 +171,6 @@ body {
   align-items: center;
   cursor: pointer;
   transition: transform 0.8s;
-  /* Floating animation applied here */
 }
 
 .nicotex-box:hover {
@@ -179,50 +184,52 @@ body {
   font-weight: bold;
 }
 
-/* Nicotex Word Container - Nested inside nicotex-box */
 .nicotex-word-container {
-  position: absolute; /* Positions relative to its parent .nicotex-box */
-  top: 0; /* Align to top of parent */
-  left: 0; /* Align to left of parent */
-  width: 100%; /* Take full width of parent */
-  height: 100%; /* Take full height of parent */
-  overflow: visible; /* Allows words to fly outside its bounds */
-  z-index: 9; /* Ensure words are on top */
-  pointer-events: none; /* Allows clicks to pass through to the box */
-  padding: 20px; /* Padding for word origin area */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 9;
+  pointer-events: none;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* Flying Word (from Nicotex Box) Styling */
 .flying-word {
   position: absolute;
-  color: #00ffb3; /* Vibrant green for positive words */
+  z-index: 9999; /* 👈 ensures words are on top */
+  transform: translate(-50%, -50%);
+  animation: flyFromCard 2.5s ease-out forwards;
+  white-space: nowrap;
   font-weight: bold;
-  animation-name: bounceAndFade;
-  animation-duration: 2.5s;
-  animation-timing-function: ease-out;
-  animation-fill-mode: both;
-  opacity: 0; /* Starts invisible */
-  text-shadow: 0 0 8px rgba(0, 255, 179, 0.6); /* Glow effect */
-  will-change: transform, opacity; /* Performance hint for browser */
+  color: white;
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
+  opacity: 0;
+  pointer-events: none;
 }
 
-/* Animation for Nicotex flying words */
-@keyframes bounceAndFade {
+@keyframes flyFromCard {
   0% {
-    transform: translate(var(--start-x, 0), var(--start-y, 0)) scale(0.8);
+    transform: translate(0px, 0px) scale(0.9);
     opacity: 0;
   }
-  20% {
-    transform: translate(var(--start-x, 0), var(--start-y, 0) - 30px) scale(1.2); /* Bounce up slightly */
-    opacity: 1; /* Fully visible */
-  }
   100% {
-    transform: translate(var(--end-x, 0), var(--end-y, 0)) scale(0.7);
-    opacity: 0; /* Fades out completely and moves to end position */
+    transform: translate(
+        calc(var(--end-x, 0px) - var(--start-x, 0px)),
+        calc(var(--end-y, 0px) - var(--start-y, 0px))
+      )
+      scale(1);
+    opacity: 1;
   }
 }
+.nicotex-box {
+  z-index: 1;
+}
 
-/* Screen Bounce Effect (on click) */
 @keyframes screenBounce {
   0% {
     transform: translate(0, 0);
@@ -248,7 +255,6 @@ body {
   animation: screenBounce 0.5s ease;
 }
 
-/* Static Nicotex Warning Tag */
 .nicotex-warning {
   position: absolute;
   bottom: 20px;
@@ -260,10 +266,10 @@ body {
   color: #fff;
   backdrop-filter: blur(6px);
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
-  animation: bounceIn 1s ease; /* Appears with a bounce */
+  animation: bounceIn 1s ease;
   cursor: pointer;
-  z-index: 10; /* Highest z-index */
-  transition: transform 0.3s ease; /* Smooth hover effect */
+  z-index: 10;
+  transition: transform 0.3s ease;
 }
 
 .nicotex-warning:hover {

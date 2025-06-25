@@ -40,23 +40,118 @@
       </div>
     </div>
 
+    <div class="nicotex-box" data-word-container-id="nicotexWords4">
+      <div class="nicotex-title">✨ Click for Advice (4)</div>
+      <div class="nicotex-word-container" id="nicotexWords4"></div>
+    </div>
+
     <script>
       const scene = document.getElementById("scene");
-      const story = "When the world was silent the smoke spoke for me".split(
-        " "
-      );
-      let index = 0;
+      const storyWords = [
+        "✨ My Story ✨",
+        "When I began",
+        "my 45-day internship,",
+        "the first 15",
+        "days were exactly",
+        "what I expected",
+        "— pure work.",
+        "No fun, no",
+        "familiar faces, just",
+        "tasks, deadlines, and",
+        "silent lunch breaks.",
+        "As an introvert,",
+        "I didn’t mind.",
+        "I was used",
+        "to staying in",
+        "my comfort zone,",
+        "quietly getting the",
+        "job done. But",
+        "then something changed.",
+        "I met you,",
+        "bhaisa — a",
+        "ray of hope",
+        "in what felt",
+        "like a lonely",
+        "world. Talking to",
+        "you made me",
+        "feel less isolated",
+        "in the company.",
+        "I genuinely loved",
+        "our conversations, and",
+        "with each passing",
+        "day, I became",
+        "more comfortable around",
+        "you and the",
+        "group. What I",
+        "cherished the most",
+        "was how you",
+        "taught me snooker",
+        "and billiards —",
+        "and those moments",
+        "when you scolded",
+        "me, joked with",
+        "me, cared for",
+        "me... like a",
+        "true big brother.",
+        "Now, as the",
+        "internship comes to",
+        "an end and",
+        "I prepare to",
+        "leave for Chennai,",
+        "I feel weirdly",
+        "empty. I miss",
+        "your presence already.",
+        "One of my",
+        "favorite days with",
+        "you was visiting",
+        "your home, laughing,",
+        "playing tennis, roaming",
+        "around — just",
+        "being in that",
+        "carefree, warm vibe.",
+        "Thank you for",
+        "making my internship",
+        "feel like family.",
+      ];
+
+      let storyIndex = 0;
 
       function emitWord() {
-        if (index >= story.length) return;
+        if (storyIndex >= storyWords.length) return;
+
         const word = document.createElement("div");
         word.className = "word";
-        word.innerText = story[index];
-        word.style.left = 300 + Math.random() * 20 - 10 + "px";
-        word.style.fontSize = 16 + Math.random() * 4 + "px";
+        word.innerText = storyWords[storyIndex];
+
+        const cigarette = document.querySelector(".cigarette");
+        const burnTip = document.querySelector(".burn-tip");
+        const sceneRect = scene.getBoundingClientRect();
+        const tipRect = burnTip.getBoundingClientRect();
+
+        const tipLeft = tipRect.left - sceneRect.left + tipRect.width / 2;
+        const tipTop = tipRect.top - sceneRect.top;
+
+        word.style.left = `${tipLeft + Math.random() * 10 - 5}px`;
+        word.style.top = `${tipTop - 10 + Math.random() * 4}px`;
+        word.style.setProperty(
+          "--rand-x",
+          (Math.random() * 30 - 15).toFixed(2)
+        );
+
+        // 🔥 Make "My Story" bigger
+        if (storyIndex === 0) {
+          word.style.fontSize = "32px";
+          word.style.fontWeight = "bold";
+          word.style.color = "#ffd700"; // gold
+          word.style.textShadow = "0 0 8px rgba(255, 215, 0, 0.8)";
+          word.style.animationDuration = "12s"; // slower float
+        } else {
+          word.style.fontSize = `${16 + Math.random() * 4}px`;
+        }
+
         scene.appendChild(word);
-        setTimeout(() => word.remove(), 6500);
-        index++;
+        setTimeout(() => word.remove(), 12000);
+        storyIndex++;
       }
 
       function dropAsh() {
@@ -69,7 +164,7 @@
       function autoFlow() {
         emitWord();
         dropAsh();
-        if (index < story.length) {
+        if (storyIndex < storyWords.length) {
           setTimeout(autoFlow, 1400);
         }
       }
@@ -84,10 +179,36 @@
       });
 
       let lastTime = 0;
-      const floatingCards = []; // --- NEW: Create an Audio object for the click sound --- // Ensure this path is correct!
+      const floatingCards = [];
+
+      const cardAudios = [
+        new Audio("audio.mp3"),
+        new Audio("audio2.mp3"),
+        new Audio("audio3.mp3"),
+      ];
+
+      cardAudios.forEach((audio) => {
+        audio.volume = 0.6;
+      });
 
       const cardClickSound = new Audio("zoom-sound-effect-125029.mp3");
-      cardClickSound.volume = 1; // Adjust volume (0.0 to 1.0) if needed
+
+      const nicotexAdviceWords = {
+        nicotexWords1: ["Quit smoking!", "Your lungs", "will thank you!", "🚭"],
+        nicotexWords2: ["Breathe free!", "Healthier life", "starts now!", "💪"],
+        nicotexWords3: [
+          "Nicotex helps!",
+          "Break free",
+          "from addiction!",
+          "✨",
+        ],
+        nicotexWords4: [
+          "Stay strong!",
+          "You've got this!",
+          "New chapter begins",
+          "🔥",
+        ],
+      };
 
       function initializeFloatingCards() {
         const nicotexBoxes = document.querySelectorAll(".nicotex-box");
@@ -118,6 +239,10 @@
           box.addEventListener("click", () => {
             const containerId = box.dataset.wordContainerId;
             triggerNicotexMessage(containerId);
+
+            const voice = cardAudios[i];
+            voice.currentTime = 0;
+            voice.play().catch((e) => console.error("Error playing voice:", e));
           });
         });
 
@@ -144,31 +269,26 @@
           const currentWidth = element.clientWidth;
           const currentHeight = element.clientHeight;
 
-          const leftEdge = 0;
-          const rightEdge = sceneWidth;
-          const topEdge = 0;
-          const bottomEdge = sceneHeight;
-
-          if (card.x < leftEdge && Math.cos(directionAngle) < 0) {
+          if (card.x < 0 && Math.cos(directionAngle) < 0) {
             card.directionAngle = Math.PI - directionAngle;
-            card.x = leftEdge + 1;
+            card.x = 1;
           } else if (
-            card.x + currentWidth > rightEdge &&
+            card.x + currentWidth > sceneWidth &&
             Math.cos(directionAngle) > 0
           ) {
             card.directionAngle = Math.PI - directionAngle;
-            card.x = rightEdge - currentWidth - 1;
+            card.x = sceneWidth - currentWidth - 1;
           }
 
-          if (card.y < topEdge && Math.sin(directionAngle) < 0) {
+          if (card.y < 0 && Math.sin(directionAngle) < 0) {
             card.directionAngle = -directionAngle;
-            card.y = topEdge + 1;
+            card.y = 1;
           } else if (
-            card.y + currentHeight > bottomEdge &&
+            card.y + currentHeight > sceneHeight &&
             Math.sin(directionAngle) > 0
           ) {
             card.directionAngle = -directionAngle;
-            card.y = bottomEdge - currentHeight - 1;
+            card.y = sceneHeight - currentHeight - 1;
           }
 
           element.style.left = `${card.x}px`;
@@ -179,93 +299,58 @@
       }
 
       function triggerNicotexMessage(containerId) {
-        // --- NEW: Play the click sound here! ---
-        cardClickSound.currentTime = 0; // Rewind to start for quick, repeated clicks
+        cardClickSound.currentTime = 0;
         cardClickSound
           .play()
           .catch((e) => console.error("Error playing click sound:", e));
 
-        const words = [
-          "No",
-          "to",
-          "smoke",
-          "💨",
-          "Use",
-          "Nicotex",
-          "🧃",
-          "Be",
-          "healthy",
-          "💪",
-          "Live",
-          "long",
-          "💚",
-          "Choose",
-          "life",
-          "✨",
-          "Breathe",
-          "free",
-          "😊",
-          "Feel",
-          "good",
-          "💖",
-          "Your",
-          "future",
-          "🌟",
-          "Quit",
-          "today",
-          "🌈",
-          "Better",
-          "choices",
-          "⬆️",
-          "Healthier",
-          "you",
-          "💖",
-        ];
-        const container = document.getElementById(containerId);
+        const wordsToDisplay = nicotexAdviceWords[containerId];
 
+        if (!wordsToDisplay) {
+          console.error("No words defined for container ID:", containerId);
+          return;
+        }
+
+        const container = document.getElementById(containerId);
         container.innerHTML = "";
 
         const containerRect = container.getBoundingClientRect();
-        const originX = containerRect.width / 2;
-        const originY = containerRect.height / 2; // Animation duration for each flying word from CSS (bounceAndFade)
+        const sceneRect = scene.getBoundingClientRect();
 
-        const wordAnimationDurationMs = 2500; // 2.5s // Adjust this value to control how fast words appear after each other // Smaller value = faster succession // Larger value = slower succession
+        const originX =
+          containerRect.left - sceneRect.left + containerRect.width / 2;
+        const originY =
+          containerRect.top - sceneRect.top + containerRect.height / 2;
 
-        const wordDelayFactorSeconds = 0.2; // Changed from 0.3 to 0.2 for better flow
-        const wordDelayFactorMs = wordDelayFactorSeconds * 1000;
+        const duration = 2500;
+        const delayStep = 200;
 
-        words.forEach((word, i) => {
+        wordsToDisplay.forEach((word, i) => {
           const span = document.createElement("span");
           span.className = "flying-word";
           span.innerText = word;
           span.style.fontSize = `${20 + Math.random() * 15}px`;
 
-          const startRadius = 30;
-          const startAngle = Math.random() * 2 * Math.PI;
-          const startX = originX + startRadius * Math.cos(startAngle);
-          const startY = originY + startRadius * Math.sin(startAngle);
+          const angle = Math.random() * 2 * Math.PI;
+          const radius = 50 + Math.random() * 70;
+          const endX = originX + radius * Math.cos(angle);
+          const endY = originY + radius * Math.sin(angle);
 
-          const endMinRadius = 100;
-          const endMaxRadius = 250;
-          const endRadius =
-            endMinRadius + Math.random() * (endMaxRadius - endMinRadius);
-          const endAngle = Math.random() * 2 * Math.PI;
-          const endX = originX + endRadius * Math.cos(endAngle);
-          const endY = originY + endRadius * Math.sin(endAngle);
+          span.style.left = `${originX}px`;
+          span.style.top = `${originY}px`;
+          span.style.transform = `translate(-50%, -50%)`;
 
-          span.style.setProperty("--start-x", `${startX}px`);
-          span.style.setProperty("--start-y", `${startY}px`);
+          span.style.setProperty("--start-x", `${originX}px`);
+          span.style.setProperty("--start-y", `${originY}px`);
           span.style.setProperty("--end-x", `${endX}px`);
           span.style.setProperty("--end-y", `${endY}px`);
 
-          span.style.opacity = "0"; // This sets the delay before THIS word's animation begins
-          span.style.animationDelay = `${i * wordDelayFactorSeconds}s`;
-          container.appendChild(span); // The word should be removed AFTER its animation has completed. // Removal time = animation duration + its specific animation delay
+          span.style.opacity = "0";
+          span.style.animationDelay = `${i * 0.5}s`;
 
-          setTimeout(
-            () => span.remove(),
-            wordAnimationDurationMs + i * wordDelayFactorMs
-          );
+          scene.appendChild(span);
+
+          setTimeout(() => span.remove(), duration + i * delayStep);
         });
 
         document.body.classList.add("screen-bounce");
@@ -274,18 +359,18 @@
 
       document.addEventListener("DOMContentLoaded", initializeFloatingCards);
     </script>
+
     <script>
       window.addEventListener("DOMContentLoaded", () => {
         const music = document.getElementById("bg-music");
 
         if (localStorage.getItem("playMusic") === "true") {
-          localStorage.removeItem("playMusic"); // clear the flag
+          localStorage.removeItem("playMusic");
           music.muted = false;
           music.play().catch((err) => {
             console.warn("Auto playback failed:", err);
           });
         } else {
-          // fallback: play on first user click
           const startMusic = () => {
             music.muted = false;
             music.play().catch((e) => console.error("Playback failed:", e));
