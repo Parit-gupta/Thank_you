@@ -1,0 +1,285 @@
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  overflow: hidden; /* Keeps content within viewport */
+  font-family: "Segoe UI", sans-serif;
+  /* Gradient background for the scene */
+  background: linear-gradient(to top, #0f0f0f 0%, #1a1a2e 40%, #293462 100%);
+}
+
+.scene {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Ashtray Styling */
+.ashtray {
+  position: absolute;
+  bottom: 50px;
+  left: 90px;
+  width: 260px;
+  height: 40px;
+  background: radial-gradient(circle at center, #333 20%, #111);
+  border-radius: 20px;
+  box-shadow: inset 0 5px 10px #000, 0 0 20px rgba(0, 0, 0, 0.6);
+  z-index: 1; /* Ensures it's above the background */
+}
+
+/* Cigarette Styling */
+.cigarette {
+  position: absolute;
+  bottom: 80px;
+  left: 120px;
+  width: 220px;
+  height: 18px;
+  background: linear-gradient(
+    to right,
+    #9b5e2e 0 18%,
+    /* Filter part */ #caa66b 18% 22%,
+    /* Gold band */ #eee 22% 94%,
+    /* Paper */ #e0e0e0 94% 97%,
+    /* Slightly darker paper edge */ #3a0d00 97% 100% /* Burning tip base */
+  );
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(255, 60, 0, 0.4); /* Glow effect */
+  z-index: 2; /* Above ashtray */
+}
+
+/* Burning Tip Effect */
+.burn-tip {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 8px;
+  height: 18px; /* Same height as cigarette */
+  background: radial-gradient(
+    circle,
+    #ff5722,
+    #d50000,
+    transparent
+  ); /* Red-orange glow */
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  animation: flicker 0.2s infinite; /* Continuous flicker */
+}
+
+@keyframes flicker {
+  0% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+/* Flying Word (from cigarette) Styling */
+.word {
+  position: absolute;
+  bottom: 100px; /* Starting low near cigarette */
+  left: 315px; /* Starting near cigarette tip */
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.75);
+  animation: riseWord 6s ease-in-out forwards; /* Animation duration and fill-mode */
+  white-space: nowrap; /* Prevent word wrapping */
+  pointer-events: none; /* Make it non-interactive */
+  filter: blur(0.4px); /* Slight blur for atmospheric effect */
+  z-index: 5; /* Above cigarette and ash */
+}
+
+@keyframes riseWord {
+  0% {
+    transform: translate(0, 0) scale(0.8) rotate(0deg);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1; /* Fully opaque during middle of animation */
+  }
+  50% {
+    transform: translate(-20px, -100px) scale(1) rotate(-5deg);
+    opacity: 0.8;
+  }
+  80% {
+    transform: translate(20px, -200px) scale(1.1) rotate(10deg);
+    opacity: 0.4;
+  }
+  100% {
+    transform: translate(-15px, -300px) scale(1.3) rotate(-10deg);
+    opacity: 0; /* Fades out completely */
+  }
+}
+
+/* Falling Ash Styling */
+.ash {
+  position: absolute;
+  width: 4px;
+  height: 12px;
+  background: #b3b3b3; /* Ash color */
+  bottom: 90px; /* Near cigarette */
+  left: 315px; /* Near cigarette tip */
+  border-radius: 2px;
+  box-shadow: 0 0 5px #ccc;
+  animation: fallAsh 3s ease-in forwards; /* Animation duration and fill-mode */
+  opacity: 0.9;
+  z-index: 3; /* Above cigarette, below flying words */
+}
+
+@keyframes fallAsh {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translateY(25px) rotate(15deg);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(60px) rotate(40deg);
+    opacity: 0; /* Fades out completely */
+  }
+}
+
+.nicotex-box {
+  position: absolute;
+  width: 240px;
+  height: 160px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 20px rgba(0, 255, 140, 0.4);
+  padding: 20px;
+  color: #fff;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.8s;
+  /* Floating animation applied here */
+}
+
+.nicotex-box:hover {
+  transform: scale(1.05);
+}
+
+.nicotex-title {
+  text-align: center;
+  font-size: 18px;
+  color: #b8ffc4; /* Light green for title */
+  font-weight: bold;
+}
+
+/* Nicotex Word Container - Nested inside nicotex-box */
+.nicotex-word-container {
+  position: absolute; /* Positions relative to its parent .nicotex-box */
+  top: 0; /* Align to top of parent */
+  left: 0; /* Align to left of parent */
+  width: 100%; /* Take full width of parent */
+  height: 100%; /* Take full height of parent */
+  overflow: visible; /* Allows words to fly outside its bounds */
+  z-index: 9; /* Ensure words are on top */
+  pointer-events: none; /* Allows clicks to pass through to the box */
+  padding: 20px; /* Padding for word origin area */
+}
+
+/* Flying Word (from Nicotex Box) Styling */
+.flying-word {
+  position: absolute;
+  color: #00ffb3; /* Vibrant green for positive words */
+  font-weight: bold;
+  animation-name: bounceAndFade;
+  animation-duration: 2.5s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+  opacity: 0; /* Starts invisible */
+  text-shadow: 0 0 8px rgba(0, 255, 179, 0.6); /* Glow effect */
+  will-change: transform, opacity; /* Performance hint for browser */
+}
+
+/* Animation for Nicotex flying words */
+@keyframes bounceAndFade {
+  0% {
+    transform: translate(var(--start-x, 0), var(--start-y, 0)) scale(0.8);
+    opacity: 0;
+  }
+  20% {
+    transform: translate(var(--start-x, 0), var(--start-y, 0) - 30px) scale(1.2); /* Bounce up slightly */
+    opacity: 1; /* Fully visible */
+  }
+  100% {
+    transform: translate(var(--end-x, 0), var(--end-y, 0)) scale(0.7);
+    opacity: 0; /* Fades out completely and moves to end position */
+  }
+}
+
+/* Screen Bounce Effect (on click) */
+@keyframes screenBounce {
+  0% {
+    transform: translate(0, 0);
+  }
+  20% {
+    transform: translate(-5px, -5px);
+  }
+  40% {
+    transform: translate(5px, 5px);
+  }
+  60% {
+    transform: translate(-3px, 3px);
+  }
+  80% {
+    transform: translate(3px, -3px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+.screen-bounce {
+  animation: screenBounce 0.5s ease;
+}
+
+/* Static Nicotex Warning Tag */
+.nicotex-warning {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 14px 20px;
+  border-radius: 12px;
+  font-size: 16px;
+  color: #fff;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+  animation: bounceIn 1s ease; /* Appears with a bounce */
+  cursor: pointer;
+  z-index: 10; /* Highest z-index */
+  transition: transform 0.3s ease; /* Smooth hover effect */
+}
+
+.nicotex-warning:hover {
+  transform: scale(1.05);
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  60% {
+    transform: translateY(-10px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+  }
+}

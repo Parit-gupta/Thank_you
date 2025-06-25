@@ -2,238 +2,42 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Gradient Sky Cigarette Scene + Horror Surprise</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        height: 100vh;
-        overflow: hidden;
-        font-family: "Segoe UI", sans-serif;
-        background: linear-gradient(
-          to top,
-          #0f0f0f 0%,
-          #1a1a2e 40%,
-          #293462 100%
-        );
-      }
-
-      .scene {
-        position: relative;
-        width: 100%;
-        height: 100%;
-      }
-
-      .ashtray {
-        position: absolute;
-        bottom: 50px;
-        left: 90px;
-        width: 260px;
-        height: 40px;
-        background: radial-gradient(circle at center, #333 20%, #111);
-        border-radius: 20px;
-        box-shadow: inset 0 5px 10px #000, 0 0 20px rgba(0, 0, 0, 0.6);
-        z-index: 1;
-      }
-
-      .cigarette {
-        position: absolute;
-        bottom: 80px;
-        left: 120px;
-        width: 220px;
-        height: 18px;
-        background: linear-gradient(
-          to right,
-          #9b5e2e 0 18%,
-          #caa66b 18% 22%,
-          #eee 22% 94%,
-          #e0e0e0 94% 97%,
-          #3a0d00 97% 100%
-        );
-        border-radius: 8px;
-        box-shadow: 0 0 8px rgba(255, 60, 0, 0.4);
-        z-index: 2;
-      }
-
-      .burn-tip {
-        position: absolute;
-        right: 0;
-        top: 0;
-        width: 8px;
-        height: 18px;
-        background: radial-gradient(circle, #ff5722, #d50000, transparent);
-        border-top-right-radius: 8px;
-        border-bottom-right-radius: 8px;
-        animation: flicker 0.2s infinite;
-      }
-
-      @keyframes flicker {
-        0% {
-          opacity: 0.7;
-        }
-        50% {
-          opacity: 1;
-        }
-        100% {
-          opacity: 0.5;
-        }
-      }
-
-      .word {
-        position: absolute;
-        bottom: 100px;
-        left: 315px;
-        font-size: 18px;
-        color: rgba(255, 255, 255, 0.75);
-        animation: riseWord 6s ease-in-out forwards;
-        white-space: nowrap;
-        pointer-events: none;
-        filter: blur(0.4px);
-        z-index: 5;
-      }
-
-      @keyframes riseWord {
-        0% {
-          transform: translate(0, 0) scale(0.8) rotate(0deg);
-          opacity: 0;
-        }
-        30% {
-          opacity: 1;
-        }
-        50% {
-          transform: translate(-20px, -100px) scale(1) rotate(-5deg);
-          opacity: 0.8;
-        }
-        80% {
-          transform: translate(20px, -200px) scale(1.1) rotate(10deg);
-          opacity: 0.4;
-        }
-        100% {
-          transform: translate(-15px, -300px) scale(1.3) rotate(-10deg);
-          opacity: 0;
-        }
-      }
-
-      .ash {
-        position: absolute;
-        width: 4px;
-        height: 12px;
-        background: #b3b3b3;
-        bottom: 90px;
-        left: 315px;
-        border-radius: 2px;
-        box-shadow: 0 0 5px #ccc;
-        animation: fallAsh 3s ease-in forwards;
-        opacity: 0.9;
-        z-index: 3;
-      }
-
-      @keyframes fallAsh {
-        0% {
-          transform: translateY(0) rotate(0deg);
-          opacity: 0.9;
-        }
-        50% {
-          transform: translateY(25px) rotate(15deg);
-          opacity: 0.7;
-        }
-        100% {
-          transform: translateY(60px) rotate(40deg);
-          opacity: 0;
-        }
-      }
-
-      /* 📦 Surprise Card */
-      .surprise-card {
-        position: absolute;
-        top: 50px;
-        right: 60px;
-        width: 240px;
-        height: 160px;
-        background: rgba(255, 255, 255, 0.08);
-        border-radius: 16px;
-        backdrop-filter: blur(8px);
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-        padding: 20px;
-        color: #fff;
-        z-index: 5;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .surprise-card button {
-        padding: 10px 20px;
-        border: none;
-        background: #ff4d4d;
-        color: white;
-        font-size: 16px;
-        border-radius: 8px;
-        cursor: pointer;
-        margin-top: 20px;
-        transition: background 0.3s;
-      }
-
-      .surprise-card button:hover {
-        background: #cc0000;
-      }
-
-      /* 👻 Horror popup */
-      .horror-popup {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: black;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 999;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.4s ease;
-      }
-
-      .horror-popup img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-
-      .horror-popup.active {
-        opacity: 1;
-        pointer-events: auto;
-      }
-    </style>
+    <title>Gradient Sky Cigarette Scene</title>
+    <link rel="stylesheet" href="niket.css" />
   </head>
   <body>
+    <audio
+      id="bg-music"
+      src="128-Tum Se Hi - Jab We Met 128 Kbps.mp3"
+      loop
+      muted
+      autoplay
+    ></audio>
+
     <div class="scene" id="scene">
       <div class="ashtray"></div>
       <div class="cigarette">
         <div class="burn-tip"></div>
       </div>
 
-      <!-- 🎁 Surprise Card -->
-      <div class="surprise-card">
-        <div>Click the box... if you dare 😈</div>
-        <button onclick="triggerHorror()">Surprise Box</button>
+      <div class="nicotex-warning">
+        <span>😒 Still smoking? Bro, Nicotex exists 👉🧃</span>
       </div>
-    </div>
 
-    <!-- 😱 Horror Popup -->
-    <div class="horror-popup" id="popup">
-      <img src="https://i.imgur.com/OZCAl4x.jpg" alt="Horror" />
-      <audio
-        id="scream"
-        src="https://www.fesliyanstudios.com/play-mp3/387"
-        preload="auto"
-      ></audio>
+      <div class="nicotex-box" data-word-container-id="nicotexWords1">
+        <div class="nicotex-title">✨ Click for Advice (1)</div>
+        <div class="nicotex-word-container" id="nicotexWords1"></div>
+      </div>
+
+      <div class="nicotex-box" data-word-container-id="nicotexWords2">
+        <div class="nicotex-title">✨ Click for Advice (2)</div>
+        <div class="nicotex-word-container" id="nicotexWords2"></div>
+      </div>
+
+      <div class="nicotex-box" data-word-container-id="nicotexWords3">
+        <div class="nicotex-title">✨ Click for Advice (3)</div>
+        <div class="nicotex-word-container" id="nicotexWords3"></div>
+      </div>
     </div>
 
     <script>
@@ -272,23 +76,224 @@
 
       autoFlow();
 
-      document.body.addEventListener("click", () => {
-        emitWord();
-        dropAsh();
+      document.body.addEventListener("click", (e) => {
+        if (!e.target.closest(".nicotex-box")) {
+          emitWord();
+          dropAsh();
+        }
       });
 
-      function triggerHorror() {
-        const popup = document.getElementById("popup");
-        const scream = document.getElementById("scream");
-        popup.classList.add("active");
-        scream.play();
+      let lastTime = 0;
+      const floatingCards = []; // --- NEW: Create an Audio object for the click sound --- // Ensure this path is correct!
 
-        setTimeout(() => {
-          popup.classList.remove("active");
-          scream.pause();
-          scream.currentTime = 0;
-        }, 4000);
+      const cardClickSound = new Audio("zoom-sound-effect-125029.mp3");
+      cardClickSound.volume = 1; // Adjust volume (0.0 to 1.0) if needed
+
+      function initializeFloatingCards() {
+        const nicotexBoxes = document.querySelectorAll(".nicotex-box");
+        const sceneRect = scene.getBoundingClientRect();
+        const cardWidth = 240;
+        const cardHeight = 160;
+        const padding = 50;
+
+        nicotexBoxes.forEach((box, i) => {
+          const randomX =
+            Math.random() * (sceneRect.width - cardWidth - padding * 2) +
+            padding;
+          const randomY =
+            Math.random() * (sceneRect.height - cardHeight - padding * 2) +
+            padding;
+
+          box.style.left = `${randomX}px`;
+          box.style.top = `${randomY}px`;
+
+          floatingCards.push({
+            element: box,
+            x: randomX,
+            y: randomY,
+            speed: 15 + Math.random() * 10,
+            directionAngle: Math.random() * 2 * Math.PI,
+          });
+
+          box.addEventListener("click", () => {
+            const containerId = box.dataset.wordContainerId;
+            triggerNicotexMessage(containerId);
+          });
+        });
+
+        requestAnimationFrame(animateFloatingCards);
       }
+
+      function animateFloatingCards(currentTime) {
+        if (!lastTime) lastTime = currentTime;
+        const deltaTime = (currentTime - lastTime) / 1000;
+        lastTime = currentTime;
+
+        const sceneWidth = scene.clientWidth;
+        const sceneHeight = scene.clientHeight;
+
+        floatingCards.forEach((card) => {
+          const { element, x, y, speed, directionAngle } = card;
+
+          const moveX = Math.cos(directionAngle) * speed * deltaTime;
+          const moveY = Math.sin(directionAngle) * speed * deltaTime;
+
+          card.x += moveX;
+          card.y += moveY;
+
+          const currentWidth = element.clientWidth;
+          const currentHeight = element.clientHeight;
+
+          const leftEdge = 0;
+          const rightEdge = sceneWidth;
+          const topEdge = 0;
+          const bottomEdge = sceneHeight;
+
+          if (card.x < leftEdge && Math.cos(directionAngle) < 0) {
+            card.directionAngle = Math.PI - directionAngle;
+            card.x = leftEdge + 1;
+          } else if (
+            card.x + currentWidth > rightEdge &&
+            Math.cos(directionAngle) > 0
+          ) {
+            card.directionAngle = Math.PI - directionAngle;
+            card.x = rightEdge - currentWidth - 1;
+          }
+
+          if (card.y < topEdge && Math.sin(directionAngle) < 0) {
+            card.directionAngle = -directionAngle;
+            card.y = topEdge + 1;
+          } else if (
+            card.y + currentHeight > bottomEdge &&
+            Math.sin(directionAngle) > 0
+          ) {
+            card.directionAngle = -directionAngle;
+            card.y = bottomEdge - currentHeight - 1;
+          }
+
+          element.style.left = `${card.x}px`;
+          element.style.top = `${card.y}px`;
+        });
+
+        requestAnimationFrame(animateFloatingCards);
+      }
+
+      function triggerNicotexMessage(containerId) {
+        // --- NEW: Play the click sound here! ---
+        cardClickSound.currentTime = 0; // Rewind to start for quick, repeated clicks
+        cardClickSound
+          .play()
+          .catch((e) => console.error("Error playing click sound:", e));
+
+        const words = [
+          "No",
+          "to",
+          "smoke",
+          "💨",
+          "Use",
+          "Nicotex",
+          "🧃",
+          "Be",
+          "healthy",
+          "💪",
+          "Live",
+          "long",
+          "💚",
+          "Choose",
+          "life",
+          "✨",
+          "Breathe",
+          "free",
+          "😊",
+          "Feel",
+          "good",
+          "💖",
+          "Your",
+          "future",
+          "🌟",
+          "Quit",
+          "today",
+          "🌈",
+          "Better",
+          "choices",
+          "⬆️",
+          "Healthier",
+          "you",
+          "💖",
+        ];
+        const container = document.getElementById(containerId);
+
+        container.innerHTML = "";
+
+        const containerRect = container.getBoundingClientRect();
+        const originX = containerRect.width / 2;
+        const originY = containerRect.height / 2; // Animation duration for each flying word from CSS (bounceAndFade)
+
+        const wordAnimationDurationMs = 2500; // 2.5s // Adjust this value to control how fast words appear after each other // Smaller value = faster succession // Larger value = slower succession
+
+        const wordDelayFactorSeconds = 0.2; // Changed from 0.3 to 0.2 for better flow
+        const wordDelayFactorMs = wordDelayFactorSeconds * 1000;
+
+        words.forEach((word, i) => {
+          const span = document.createElement("span");
+          span.className = "flying-word";
+          span.innerText = word;
+          span.style.fontSize = `${20 + Math.random() * 15}px`;
+
+          const startRadius = 30;
+          const startAngle = Math.random() * 2 * Math.PI;
+          const startX = originX + startRadius * Math.cos(startAngle);
+          const startY = originY + startRadius * Math.sin(startAngle);
+
+          const endMinRadius = 100;
+          const endMaxRadius = 250;
+          const endRadius =
+            endMinRadius + Math.random() * (endMaxRadius - endMinRadius);
+          const endAngle = Math.random() * 2 * Math.PI;
+          const endX = originX + endRadius * Math.cos(endAngle);
+          const endY = originY + endRadius * Math.sin(endAngle);
+
+          span.style.setProperty("--start-x", `${startX}px`);
+          span.style.setProperty("--start-y", `${startY}px`);
+          span.style.setProperty("--end-x", `${endX}px`);
+          span.style.setProperty("--end-y", `${endY}px`);
+
+          span.style.opacity = "0"; // This sets the delay before THIS word's animation begins
+          span.style.animationDelay = `${i * wordDelayFactorSeconds}s`;
+          container.appendChild(span); // The word should be removed AFTER its animation has completed. // Removal time = animation duration + its specific animation delay
+
+          setTimeout(
+            () => span.remove(),
+            wordAnimationDurationMs + i * wordDelayFactorMs
+          );
+        });
+
+        document.body.classList.add("screen-bounce");
+        setTimeout(() => document.body.classList.remove("screen-bounce"), 500);
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeFloatingCards);
+    </script>
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        const music = document.getElementById("bg-music");
+
+        if (localStorage.getItem("playMusic") === "true") {
+          localStorage.removeItem("playMusic"); // clear the flag
+          music.muted = false;
+          music.play().catch((err) => {
+            console.warn("Auto playback failed:", err);
+          });
+        } else {
+          // fallback: play on first user click
+          const startMusic = () => {
+            music.muted = false;
+            music.play().catch((e) => console.error("Playback failed:", e));
+            document.removeEventListener("click", startMusic);
+          };
+          document.addEventListener("click", startMusic);
+        }
+      });
     </script>
   </body>
 </html>

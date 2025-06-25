@@ -169,6 +169,11 @@
               src="WhatsApp Image 2025-06-21 at 00.27.58_29b00553.jpg"
               alt="Niket Extra 2"
             />
+            <div class="button-container">
+              <button class="btn-niket" onclick="goToniketPage()">
+                Go to Niket's Page
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -243,6 +248,13 @@
           img.addEventListener("click", () => openImagePopup(img.src));
         });
       });
+    </script>
+
+    <script>
+      function goToniketPage() {
+        localStorage.setItem("playMusic", "true");
+        window.location.href = "niket.html";
+      }
     </script>
 
     <script>
