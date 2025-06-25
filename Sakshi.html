@@ -43,6 +43,30 @@
   <audio id="pop" src="sharp-pop-328170.mp3" preload="auto"></audio>
 
   <script>
+  window.addEventListener("DOMContentLoaded", () => {
+    const music = document.getElementById("bg-music");
+
+    // Check if user came from button click
+    if (localStorage.getItem("playMusic") === "true") {
+      localStorage.removeItem("playMusic"); // clean up
+      music.muted = false;
+      music.play().catch((err) => {
+        console.warn("Music autoplay failed:", err);
+      });
+    } else {
+      // Fallback: allow music to start on click
+      const enableMusic = () => {
+        music.muted = false;
+        music.play().catch((e) => console.error("Playback failed:", e));
+        document.removeEventListener("click", enableMusic);
+      };
+      document.addEventListener("click", enableMusic);
+    }
+  });
+</script>
+
+
+  <script>
     const lines = [
       "You’re not thinking about work... you’re thinking about chai again, aren’t you? ☕😏",
       "Your brain is 60% tea, 40% anda... confirmed. � + ☕🍳",
