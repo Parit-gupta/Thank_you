@@ -244,6 +244,11 @@
               src="WhatsApp Image 2025-06-16 at 21.46.49_dbbfd12c.jpg"
               alt="Anand 5"
             />
+            <div class="button-container">
+              <button class="btn-anand" onclick="goToanandPage()">
+                Go to Anand's Page
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -306,22 +311,89 @@
     </script>
 
     <script>
+      let music = document.getElementById("bg-music");
+      let niketWindow = null;
+      let checkTab;
+
       function goToniketPage() {
+        // Pause music
+        if (music) {
+          music.pause();
+        }
+
+        // Open Niket page in new tab
         localStorage.setItem("playMusic", "true");
-        window.location.href = "niket.html";
+        niketWindow = window.open("niket.html", "_blank");
+
+        // Start checking if the new tab is closed
+        checkTab = setInterval(() => {
+          if (niketWindow && niketWindow.closed) {
+            clearInterval(checkTab);
+            if (music) {
+              music.play(); // Resume music
+            }
+          }
+        }, 1000); // check every 1 second
       }
     </script>
 
     <script>
       function goToSomyaPage() {
-        window.location.href = "Somya.html"; // Make sure this file exists
+        window.open("Somya.html", "_blank"); // Make sure this file exists
       }
     </script>
 
     <script>
-      function goToSakshiPage() {
+      let music2 = document.getElementById("bg-music");
+      let anand = null;
+      let checkTab2;
+
+      function goToanandPage() {
+        // Pause music
+        if (music2) {
+          music2.pause();
+        }
+
+        // Open Anand page in new tab
         localStorage.setItem("playMusic", "true");
-        window.location.href = "Sakshi.html";
+        anandwindow = window.open("anand.html", "_blank");
+
+        // Start checking if the new tab is closed
+        checkTab2 = setInterval(() => {
+          if (anandwindow && anandwindow.closed) {
+            clearInterval(checkTab2);
+            if (music2) {
+              music2.play(); // Resume music
+            }
+          }
+        }, 1000); // check every 1 second
+      }
+    </script>
+
+    <script>
+      let music1 = document.getElementById("bg-music");
+      let Sakshiwindow = null;
+      let checkTab1;
+
+      function goToSakshiPage() {
+        // Pause music
+        if (music1) {
+          music1.pause();
+        }
+
+        // Open Niket page in new tab
+        localStorage.setItem("playMusic", "true");
+        Sakshiwindow = window.open("Sakshi.html", "_blank");
+
+        // Start checking if the new tab is closed
+        checkTab1 = setInterval(() => {
+          if (Sakshiwindow && Sakshiwindow.closed) {
+            clearInterval(checkTab1);
+            if (music1) {
+              music1.play(); // Resume music
+            }
+          }
+        }, 1000); // check every 1 second
       }
     </script>
 

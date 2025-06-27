@@ -1773,6 +1773,26 @@ body {
   transform: scale(1.05);
 }
 
+.btn-anand {
+  padding: 12px 26px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  background: linear-gradient(135deg, #00bfff, #1e90ff);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(30, 144, 255, 0.4);
+  margin-top: 1rem;
+}
+
+.btn-anand:hover {
+  background: linear-gradient(135deg, #4682b4, #1e90ff);
+  box-shadow: 0 6px 16px rgba(30, 144, 255, 0.6);
+  transform: scale(1.05);
+}
+
 .photo-gallery {
   display: flex;
   flex-wrap: wrap;

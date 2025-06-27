@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cheers, Champ! 🍻</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="anand.css" />
+  </head>
+  <body>
+    <audio
+      id="bg-music"
+      src="https://www.bensound.com/bensound-music/bensound-jazzyfrenchy.mp3"
+      autoplay
+      loop
+    ></audio>
+
+    <h1>Cheers to the Legend 🍻</h1>
+
+    <div class="glass" id="beerGlass">
+      <div class="liquid" id="beerLiquid">
+        <div class="liquid-surface" id="liquidSurface"></div>
+      </div>
+    </div>
+
+    <div class="messages" id="messageBox">
+      You hide it well, but we see the weight.<br />
+      Pressure turns coal into diamonds 💎<br />
+      You're already shining, bro.
+    </div>
+
+    <div class="controls-bar">
+      <label for="drinkVolume">Choose Volume:</label>
+      <select id="drinkVolume" onchange="updateVolumeSelection()">
+        <option value="0">Empty</option>
+        <option value="30">Small Pag (30ml)</option>
+        <option value="60">Large Pag (60ml)</option>
+        <option value="100">100ml</option>
+        <option value="150">150ml</option>
+        <option value="200">Full Glass (200ml)</option>
+      </select>
+    </div>
+
+    <div class="button-bar">
+      <button onclick="mixDrink()">Mix your Mood</button>
+      <button onclick="getChakna()">Get Some Chakna</button>
+      <button onclick="showFloatingStory()">Listen Story</button>
+    </div>
+
+    <div class="quote-box" id="quoteBox"></div>
+
+    <div class="chakna-container">
+      <img id="chaknaImage" src="" alt="Delicious Chakna" />
+    </div>
+
+    <div id="floatingStoryContainer"></div>
+
+    <script>
+      const quotes = [
+        "Whiskey of Wisdom: You're wiser than you think.",
+        "Rum of Resilience: You bounce back harder.",
+        "Vodka of Victory: Even bad days fear your comeback.",
+        "Beer of Bravery: Facing it all silently is heroic.",
+        "Gin of Genius: You're the quiet smart type.",
+      ];
+
+      // Your long story text
+      const longStory = `So hello — this is my story.<br><br>
+  I first met <strong>Anand Bhaiya</strong> while I was doing some document extraction work. My mentor (aka <em>CHUHIYA</em>) told me to complete it and head home. I finished and around 7 PM, I showed my progress to Anand Bhaiya. He was working late and showing his own work too. We didn’t speak much that day — I just went back to my PG.<br><br>
+  Later, I got some Streamlit work from CHUHIYA again, completed it, and sent it. The next day, Anand Bhaiya and I talked a little — but even that small moment meant a lot. He saw my code and explained it within seconds. Then he went for lunch with his mates (they offered me too, but you know 😅).<br><br>
+  Over time, I got more comfortable. My mentor got busy, so I started asking Anand Bhaiya for work. He was calm, patient, and always helpful. Soon, he became a mentor to me too. Our bond grew, and the best memories were made for me I don't know if it was good for them or not  — visiting <strong>Niket Bhaiya’s house</strong>, exploring <strong>Decathlon</strong>, playing games, and yeah… Anand Bhaiya really loved that massager too much 😂<br><br>
+  The most loving thing about <strong>Anand Bhaiya</strong> is how caring, cool, and genuinely good-hearted he is. He never judges too quickly, always brings good humor, and is eager to share everything he knows. Playing billiards with him was always fun, but learning from him was something special.<br><br>
+  <strong>Thank you, Bhaiya</strong>, for everything. Just one thing — <em>be positive about yourself, take a stand, and never let anyone judge you — no matter who they are. You are amazing.</em>`;
+      const beerGlass = document.getElementById("beerGlass");
+      const beerLiquid = document.getElementById("beerLiquid");
+      const liquidSurface = document.getElementById("liquidSurface");
+      const chaknaImage = document.getElementById("chaknaImage");
+      const floatingStoryContainer = document.getElementById(
+        "floatingStoryContainer"
+      ); // Get the new container
+
+      let selectedVolumeMl = 200; // Default to full glass
+
+      const chaknaImages = [
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Roasted-peanuts.jpg/320px-Roasted-peanuts.jpg", // Peanuts
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Bhujia_%28Namkeen%29.JPG/320px-Bhujia_%28Namkeen%29.JPG", // Bhujia (Namkeen)
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Potato_chips.jpg/320px-Potato_chips.jpg", // Chips
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Mix_Namkeen_Indian_Snacks.jpg/320px-Mix_Namkeen_Indian_Snacks.jpg", // Mix Namkeen
+      ];
+
+      function updateVolumeSelection() {
+        selectedVolumeMl = parseInt(
+          document.getElementById("drinkVolume").value
+        );
+        pourSelectedVolume();
+      }
+
+      function pourSelectedVolume() {
+        const glassHeightPx = 200;
+        const maxLiquidFillPercentage = 0.8;
+        const maxLiquidHeightPx = glassHeightPx * maxLiquidFillPercentage;
+
+        const maxVolumeMl = 200;
+        let targetLiquidHeightPx =
+          (selectedVolumeMl / maxVolumeMl) * maxLiquidHeightPx;
+        let targetLiquidHeightPercentage =
+          (targetLiquidHeightPx / glassHeightPx) * 100;
+
+        beerGlass.classList.add("shake");
+        beerGlass.addEventListener(
+          "animationend",
+          () => {
+            beerGlass.classList.remove("shake");
+          },
+          { once: true }
+        );
+
+        beerLiquid.style.height = `${targetLiquidHeightPercentage}%`;
+
+        if (selectedVolumeMl > 0) {
+          liquidSurface.style.opacity = "0";
+          liquidSurface.style.animation = "none";
+          liquidSurface.offsetHeight;
+          setTimeout(() => {
+            liquidSurface.style.opacity = "1";
+            liquidSurface.style.animation =
+              "slosh 3s ease-in-out infinite alternate";
+          }, 1800);
+
+          startBubbles();
+          document.getElementById(
+            "quoteBox"
+          ).innerText = `Cheers! You chose ${selectedVolumeMl}ml. Enjoy responsibly! 🍻`;
+        } else {
+          liquidSurface.style.opacity = "0";
+          clearInterval(bubbleInterval);
+          document.getElementById("quoteBox").innerText =
+            "Empty glass, but full of possibilities!";
+        }
+        launchConfetti();
+      }
+
+      function mixDrink() {
+        const rand = Math.floor(Math.random() * quotes.length);
+        document.getElementById("quoteBox").innerText = quotes[rand];
+        launchConfetti();
+      }
+
+      function getChakna() {
+        const rand = Math.floor(Math.random() * chaknaImages.length);
+        chaknaImage.src = chaknaImages[rand];
+
+        chaknaImage.style.display = "block";
+        chaknaImage.style.opacity = "0";
+        chaknaImage.style.transition = "opacity 1s ease-in-out";
+        setTimeout(() => (chaknaImage.style.opacity = "1"), 50);
+      }
+
+      // New function to show the story as a floating bubble
+      function showFloatingStory() {
+        // Clear previous story if any
+        floatingStoryContainer.innerHTML = "";
+        floatingStoryContainer.style.display = "block"; // Make sure container is visible
+
+        const storyBubble = document.createElement("div");
+        storyBubble.classList.add("story-bubble");
+        storyBubble.innerHTML = longStory; // Set the story text
+
+        // Randomize initial position slightly
+        storyBubble.style.left = `${5 + Math.random() * 90}%`;
+        storyBubble.style.bottom = `-100px`; // Start from below the viewport
+
+        floatingStoryContainer.appendChild(storyBubble);
+
+        // Remove the bubble after animation completes
+        storyBubble.addEventListener("animationend", () => {
+          storyBubble.remove();
+        });
+      }
+
+      function launchConfetti() {
+        for (let i = 0; i < 20; i++) {
+          let confetti = document.createElement("div");
+          confetti.classList.add("confetti");
+          confetti.style.left = Math.random() * 100 + "vw";
+          confetti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+          document.body.appendChild(confetti);
+          setTimeout(() => confetti.remove(), 3000);
+        }
+      }
+
+      function createParticle() {
+        const particle = document.createElement("div");
+        particle.classList.add("particle");
+        document.body.appendChild(particle);
+
+        const size = Math.random() * 10 + 5;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+
+        particle.style.left = `${Math.random() * 100}vw`;
+        particle.style.bottom = `-20px`;
+
+        particle.style.animationDuration = `${Math.random() * 10 + 5}s`;
+        particle.style.animationDelay = `${Math.random() * 2}s`;
+
+        particle.addEventListener("animationend", () => {
+          particle.remove();
+        });
+      }
+
+      setInterval(createParticle, 300);
+
+      function createBubble() {
+        const bubble = document.createElement("div");
+        bubble.classList.add("bubble");
+        beerLiquid.appendChild(bubble);
+
+        const size = Math.random() * 5 + 2;
+        bubble.style.width = `${size}px`;
+        bubble.style.height = `${size}px`;
+
+        bubble.style.left = `${Math.random() * 90 + 5}%`;
+        bubble.style.bottom = `${Math.random() * 20}px`;
+
+        bubble.style.animationDuration = `${Math.random() * 2 + 1.5}s`;
+        bubble.style.animationDelay = `${Math.random() * 0.5}s`;
+
+        bubble.addEventListener("animationend", () => {
+          bubble.remove();
+        });
+      }
+
+      let bubbleInterval;
+
+      function startBubbles() {
+        if (bubbleInterval) {
+          clearInterval(bubbleInterval);
+        }
+        bubbleInterval = setInterval(createBubble, 150);
+
+        setTimeout(() => {
+          clearInterval(bubbleInterval);
+        }, 4500);
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("drinkVolume").value = "200";
+        selectedVolumeMl = 200;
+        pourSelectedVolume();
+      });
+    </script>
+  </body>
+</html>
