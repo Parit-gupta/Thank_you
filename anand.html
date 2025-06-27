@@ -52,9 +52,7 @@
 
     <div class="quote-box" id="quoteBox"></div>
 
-    <div class="chakna-container">
-      <img id="chaknaImage" src="" alt="Delicious Chakna" />
-    </div>
+    <div class="chakna-container"></div>
 
     <div id="floatingStoryContainer"></div>
 
@@ -67,29 +65,22 @@
         "Gin of Genius: You're the quiet smart type.",
       ];
 
-      // Your long story text
       const longStory = `So hello — this is my story.<br><br>
-  I first met <strong>Anand Bhaiya</strong> while I was doing some document extraction work. My mentor (aka <em>CHUHIYA</em>) told me to complete it and head home. I finished and around 7 PM, I showed my progress to Anand Bhaiya. He was working late and showing his own work too. We didn’t speak much that day — I just went back to my PG.<br><br>
-  Later, I got some Streamlit work from CHUHIYA again, completed it, and sent it. The next day, Anand Bhaiya and I talked a little — but even that small moment meant a lot. He saw my code and explained it within seconds. Then he went for lunch with his mates (they offered me too, but you know 😅).<br><br>
-  Over time, I got more comfortable. My mentor got busy, so I started asking Anand Bhaiya for work. He was calm, patient, and always helpful. Soon, he became a mentor to me too. Our bond grew, and the best memories were made for me I don't know if it was good for them or not  — visiting <strong>Niket Bhaiya’s house</strong>, exploring <strong>Decathlon</strong>, playing games, and yeah… Anand Bhaiya really loved that massager too much 😂<br><br>
+  I first met <strong>Anand Bhaiya</strong> while I was doing some document extraction work. My mentor Sashank (aka <em>CHUHIYA</em>) told me to complete it and head home. I finished and around 7 PM, I showed my progress to my mentor. He was working late and showing his own work too. We didn’t speak much that day — I just went back to my PG.<br><br>
+  Later, I got some Streamlit work from CHUHIYA again, completed it, and sent it. The next day, Anand Bhaiya and I talked a little for the code IS made for the webpage — but even that small moment meant a lot. He saw my code and explained it within seconds. Then he went for lunch with his mates (they offered me too, but you know 😅).<br><br>
+  Over time, I got more comfortable. My mentor got busy, so I started asking Anand Bhaiya for work. He was calm, patient, and always helpful. Soon, he became a mentor to me too. Our bond grew, and the best memories were made — visiting <strong>Niket Bhaiya’s house</strong>, exploring <strong>Decathlon</strong>, playing games, and yeah… Anand Bhaiya really loved that massager too much 😂<br><br>
   The most loving thing about <strong>Anand Bhaiya</strong> is how caring, cool, and genuinely good-hearted he is. He never judges too quickly, always brings good humor, and is eager to share everything he knows. Playing billiards with him was always fun, but learning from him was something special.<br><br>
   <strong>Thank you, Bhaiya</strong>, for everything. Just one thing — <em>be positive about yourself, take a stand, and never let anyone judge you — no matter who they are. You are amazing.</em>`;
+
       const beerGlass = document.getElementById("beerGlass");
       const beerLiquid = document.getElementById("beerLiquid");
       const liquidSurface = document.getElementById("liquidSurface");
-      const chaknaImage = document.getElementById("chaknaImage");
       const floatingStoryContainer = document.getElementById(
         "floatingStoryContainer"
-      ); // Get the new container
+      );
+      const quoteBox = document.getElementById("quoteBox");
 
-      let selectedVolumeMl = 200; // Default to full glass
-
-      const chaknaImages = [
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Roasted-peanuts.jpg/320px-Roasted-peanuts.jpg", // Peanuts
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Bhujia_%28Namkeen%29.JPG/320px-Bhujia_%28Namkeen%29.JPG", // Bhujia (Namkeen)
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Potato_chips.jpg/320px-Potato_chips.jpg", // Chips
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Mix_Namkeen_Indian_Snacks.jpg/320px-Mix_Namkeen_Indian_Snacks.jpg", // Mix Namkeen
-      ];
+      let selectedVolumeMl = 200;
 
       function updateVolumeSelection() {
         selectedVolumeMl = parseInt(
@@ -131,53 +122,51 @@
           }, 1800);
 
           startBubbles();
-          document.getElementById(
-            "quoteBox"
-          ).innerText = `Cheers! You chose ${selectedVolumeMl}ml. Enjoy responsibly! 🍻`;
+          quoteBox.innerText = `Cheers! You chose ${selectedVolumeMl}ml. Enjoy responsibly! 🍻`;
         } else {
           liquidSurface.style.opacity = "0";
           clearInterval(bubbleInterval);
-          document.getElementById("quoteBox").innerText =
-            "Empty glass, but full of possibilities!";
+          quoteBox.innerText = "Empty glass, but full of possibilities!";
         }
         launchConfetti();
       }
 
       function mixDrink() {
         const rand = Math.floor(Math.random() * quotes.length);
-        document.getElementById("quoteBox").innerText = quotes[rand];
+        quoteBox.innerText = quotes[rand];
         launchConfetti();
       }
 
       function getChakna() {
-        const rand = Math.floor(Math.random() * chaknaImages.length);
-        chaknaImage.src = chaknaImages[rand];
-
-        chaknaImage.style.display = "block";
-        chaknaImage.style.opacity = "0";
-        chaknaImage.style.transition = "opacity 1s ease-in-out";
-        setTimeout(() => (chaknaImage.style.opacity = "1"), 50);
+        quoteBox.innerText =
+          "Bhaiya daaru le aaye par chakna kaise bhool gaye chalo leke aao!";
       }
 
-      // New function to show the story as a floating bubble
       function showFloatingStory() {
-        // Clear previous story if any
-        floatingStoryContainer.innerHTML = "";
-        floatingStoryContainer.style.display = "block"; // Make sure container is visible
+        floatingStoryContainer.innerHTML = ""; // Clear any previous story bubbles
+        floatingStoryContainer.style.display = "flex"; // Ensure container is visible
 
-        const storyBubble = document.createElement("div");
-        storyBubble.classList.add("story-bubble");
-        storyBubble.innerHTML = longStory; // Set the story text
+        const paragraphs = longStory.split("<br><br>");
+        // Set delay to be slightly longer than the bubble's animation duration (20s in CSS)
+        const delayBetweenParagraphs = 16000; // 21 seconds for a smooth, non-overlapping flow
 
-        // Randomize initial position slightly
-        storyBubble.style.left = `${5 + Math.random() * 90}%`;
-        storyBubble.style.bottom = `-100px`; // Start from below the viewport
+        paragraphs.forEach((paraText, index) => {
+          setTimeout(() => {
+            if (paraText.trim() === "") return;
 
-        floatingStoryContainer.appendChild(storyBubble);
+            const storyBubble = document.createElement("div");
+            storyBubble.classList.add("story-bubble");
+            storyBubble.innerHTML = paraText.trim();
 
-        // Remove the bubble after animation completes
-        storyBubble.addEventListener("animationend", () => {
-          storyBubble.remove();
+            storyBubble.style.left = `${10 + Math.random() * 80}%`;
+            storyBubble.style.bottom = `-100px`;
+
+            floatingStoryContainer.appendChild(storyBubble);
+
+            storyBubble.addEventListener("animationend", () => {
+              storyBubble.remove();
+            });
+          }, index * delayBetweenParagraphs);
         });
       }
 
