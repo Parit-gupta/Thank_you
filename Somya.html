@@ -1,1 +1,134 @@
-hello
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Club Dance Floor for [Her Name]</title>
+    <link rel="stylesheet" href="somya.css" />
+  </head>
+  <body>
+    <div class="lights">
+      <div class="light"></div>
+      <div class="light"></div>
+      <div class="light"></div>
+      <div class="light light-alt"></div>
+    </div>
+
+    <div class="disco-ball"></div>
+
+    <div class="title">Party Queen [Her Name]'s Dance Floor</div>
+    <div class="tagline">Keep Calm & Keep Dancing 🪩</div>
+
+    <div class="vj-screen"></div>
+
+    <div class="dancer dancer-left"></div>
+    <div class="dancer dancer-center"></div>
+    <div class="dancer dancer-right"></div>
+
+    <div class="surprise">LET’S GET WILD 🎉</div>
+
+    <div class="fog"></div>
+
+    <script>
+      // Confetti
+      for (let i = 0; i < 30; i++) {
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+        confetti.style.left = Math.random() * 100 + "vw";
+        confetti.style.animationDuration = Math.random() * 3 + 3 + "s";
+        confetti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+        confetti.style.width = confetti.style.height =
+          Math.random() * 8 + 5 + "px";
+        document.body.appendChild(confetti);
+      }
+
+      // Lasers (Now randomized colors)
+      for (let i = 0; i < 5; i++) {
+        // More lasers
+        const laser = document.createElement("div");
+        laser.classList.add("laser");
+        laser.style.left = `${Math.random() * 90 + 5}%`; // Random horizontal position
+        laser.style.animationDelay = `${Math.random() * 2}s`;
+        const randomColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+        laser.style.background = `linear-gradient(to bottom, ${randomColor}, transparent)`;
+        document.body.appendChild(laser);
+      }
+
+      // --- NEW: Cursor Spark Trail ---
+      document.addEventListener("mousemove", (e) => {
+        const spark = document.createElement("div");
+        spark.classList.add("cursor-spark");
+        document.body.appendChild(spark);
+
+        spark.style.left = `${e.clientX}px`;
+        spark.style.top = `${e.clientY}px`;
+
+        const size = Math.random() * 4 + 2; // Random size for sparks
+        spark.style.width = `${size}px`;
+        spark.style.height = `${size}px`;
+
+        spark.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 80%)`; // Random color
+
+        // Random initial offset for scattered effect
+        const offsetX = (Math.random() - 0.5) * 20;
+        const offsetY = (Math.random() - 0.5) * 20;
+
+        spark.style.transform = `translate(-50%, -50%) translate(${offsetX}px, ${offsetY}px)`; // Center + offset
+
+        spark.style.animationDuration = `${Math.random() * 0.5 + 0.3}s`; // Faster fade
+        spark.style.animationTimingFunction = "ease-out";
+
+        spark.addEventListener("animationend", () => {
+          spark.remove();
+        });
+      });
+      // --- END NEW: Cursor Spark Trail ---
+
+      // --- NEW: Strobe Light Effect ---
+      const body = document.body;
+      let strobeInterval;
+
+      function startStrobe() {
+        strobeInterval = setInterval(() => {
+          body.classList.toggle("strobe-on");
+        }, 100); // Flash every 100ms
+      }
+
+      // Start strobe after some delay to let initial animations settle
+      setTimeout(startStrobe, 5000);
+
+      // Optional: Stop strobe after some time or on user interaction
+      // setTimeout(() => {
+      //     clearInterval(strobeInterval);
+      //     body.classList.remove('strobe-on');
+      // }, 20000); // Stops after 20 seconds
+      // --- END NEW: Strobe Light Effect ---
+
+      // --- NEW: Simulated Audio Visualizer (simple bars) ---
+      function createVisualizerBars() {
+        const visualizerContainer = document.createElement("div");
+        visualizerContainer.classList.add("visualizer-container");
+        document.body.appendChild(visualizerContainer);
+
+        for (let i = 0; i < 20; i++) {
+          // 20 bars
+          const bar = document.createElement("div");
+          bar.classList.add("visualizer-bar");
+          bar.style.left = `${5 + i * 4.5}%`; // Distribute bars across the width
+          bar.style.animationDelay = `${Math.random() * 0.5}s`; // Stagger animation
+          visualizerContainer.appendChild(bar);
+        }
+      }
+      document.addEventListener("DOMContentLoaded", createVisualizerBars);
+      // --- END NEW: Simulated Audio Visualizer ---
+    </script>
+
+    <audio autoplay loop>
+      <source
+        src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+        type="audio/mpeg"
+      />
+      Your browser does not support the audio tag.
+    </audio>
+  </body>
+</html>

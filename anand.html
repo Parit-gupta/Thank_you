@@ -66,8 +66,8 @@
       ];
 
       const longStory = `So hello — this is my story.<br><br>
-  I first met <strong>Anand Bhaiya</strong> while I was doing some document extraction work. My mentor Sashank (aka <em>CHUHIYA</em>) told me to complete it and head home. I finished and around 7 PM, I showed my progress to my mentor. He was working late and showing his own work too. We didn’t speak much that day — I just went back to my PG.<br><br>
-  Later, I got some Streamlit work from CHUHIYA again, completed it, and sent it. The next day, Anand Bhaiya and I talked a little for the code IS made for the webpage — but even that small moment meant a lot. He saw my code and explained it within seconds. Then he went for lunch with his mates (they offered me too, but you know 😅).<br><br>
+  I first met <strong>Anand Bhaiya</strong> while I was doing some document extraction work. My mentor (aka <em>CHUHIYA</em>) told me to complete it and head home. I finished and around 7 PM, I showed my progress to Anand Bhaiya. He was working late and showing his own work too. We didn’t speak much that day — I just went back to my PG.<br><br>
+  Later, I got some Streamlit work from CHUHIYA again, completed it, and sent it. The next day, Anand Bhaiya and I talked a little — but even that small moment meant a lot. He saw my code and explained it within seconds. Then he went for lunch with his mates (they offered me too, but you know 😅).<br><br>
   Over time, I got more comfortable. My mentor got busy, so I started asking Anand Bhaiya for work. He was calm, patient, and always helpful. Soon, he became a mentor to me too. Our bond grew, and the best memories were made — visiting <strong>Niket Bhaiya’s house</strong>, exploring <strong>Decathlon</strong>, playing games, and yeah… Anand Bhaiya really loved that massager too much 😂<br><br>
   The most loving thing about <strong>Anand Bhaiya</strong> is how caring, cool, and genuinely good-hearted he is. He never judges too quickly, always brings good humor, and is eager to share everything he knows. Playing billiards with him was always fun, but learning from him was something special.<br><br>
   <strong>Thank you, Bhaiya</strong>, for everything. Just one thing — <em>be positive about yourself, take a stand, and never let anyone judge you — no matter who they are. You are amazing.</em>`;
@@ -147,8 +147,7 @@
         floatingStoryContainer.style.display = "flex"; // Ensure container is visible
 
         const paragraphs = longStory.split("<br><br>");
-        // Set delay to be slightly longer than the bubble's animation duration (20s in CSS)
-        const delayBetweenParagraphs = 16000; // 21 seconds for a smooth, non-overlapping flow
+        const delayBetweenParagraphs = 15000; // 16 seconds
 
         paragraphs.forEach((paraText, index) => {
           setTimeout(() => {
@@ -235,6 +234,39 @@
           clearInterval(bubbleInterval);
         }, 4500);
       }
+
+      // --- New Cursor Trail JavaScript ---
+      document.addEventListener("mousemove", (e) => {
+        createBeerBottleTrail(e.clientX, e.clientY);
+      });
+
+      let lastBottleTime = 0;
+      const minBottleInterval = 50; // milliseconds between bottles (adjust for density)
+
+      function createBeerBottleTrail(x, y) {
+        const currentTime = Date.now();
+        if (currentTime - lastBottleTime < minBottleInterval) {
+          return; // Don't create too many bottles too quickly
+        }
+        lastBottleTime = currentTime;
+
+        const bottle = document.createElement("div");
+        bottle.classList.add("beer-bottle-trail");
+        document.body.appendChild(bottle);
+
+        bottle.style.left = `${x}px`;
+        bottle.style.top = `${y}px`;
+
+        // Randomize rotation slightly for a more natural look
+        const randomRotation = Math.random() * 30 - 15; // -15 to +15 degrees
+        bottle.style.transform = `translate(-50%, -50%) rotate(${randomRotation}deg)`; // Center and rotate
+
+        // Remove the bottle after its animation
+        bottle.addEventListener("animationend", () => {
+          bottle.remove();
+        });
+      }
+      // --- End New Cursor Trail JavaScript ---
 
       document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("drinkVolume").value = "200";
