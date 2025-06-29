@@ -19,11 +19,21 @@
     <div class="title">Party Queen [Her Name]'s Dance Floor</div>
     <div class="tagline">Keep Calm & Keep Dancing 🪩</div>
 
+    <div class="heartfelt-message">
+      <p id="heartfeltMessageText"></p>
+    </div>
+
     <div class="vj-screen"></div>
+
+    <div class="disco-floor-grid"></div>
 
     <div class="dancer dancer-left"></div>
     <div class="dancer dancer-center"></div>
     <div class="dancer dancer-right"></div>
+
+    <div class="party-message-card">
+      <p id="partyMessageText"></p>
+    </div>
 
     <div class="surprise">LET’S GET WILD 🎉</div>
 
@@ -42,19 +52,19 @@
         document.body.appendChild(confetti);
       }
 
-      // Lasers (Now randomized colors)
-      for (let i = 0; i < 5; i++) {
-        // More lasers
+      // Lasers (Now randomized colors and individual sweep animations)
+      for (let i = 0; i < 7; i++) {
         const laser = document.createElement("div");
         laser.classList.add("laser");
-        laser.style.left = `${Math.random() * 90 + 5}%`; // Random horizontal position
-        laser.style.animationDelay = `${Math.random() * 2}s`;
+        laser.style.left = `${Math.random() * 90 + 5}%`;
+        laser.style.animationDelay = `${Math.random() * 3}s`;
+        laser.style.animationDuration = `${Math.random() * 8 + 4}s`;
         const randomColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
         laser.style.background = `linear-gradient(to bottom, ${randomColor}, transparent)`;
         document.body.appendChild(laser);
       }
 
-      // --- NEW: Cursor Spark Trail ---
+      // Cursor Spark Trail
       document.addEventListener("mousemove", (e) => {
         const spark = document.createElement("div");
         spark.classList.add("cursor-spark");
@@ -63,64 +73,200 @@
         spark.style.left = `${e.clientX}px`;
         spark.style.top = `${e.clientY}px`;
 
-        const size = Math.random() * 4 + 2; // Random size for sparks
+        const size = Math.random() * 4 + 2;
         spark.style.width = `${size}px`;
         spark.style.height = `${size}px`;
 
-        spark.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 80%)`; // Random color
+        spark.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 80%)`;
 
-        // Random initial offset for scattered effect
         const offsetX = (Math.random() - 0.5) * 20;
         const offsetY = (Math.random() - 0.5) * 20;
 
-        spark.style.transform = `translate(-50%, -50%) translate(${offsetX}px, ${offsetY}px)`; // Center + offset
+        spark.style.transform = `translate(-50%, -50%) translate(${offsetX}px, ${offsetY}px)`;
 
-        spark.style.animationDuration = `${Math.random() * 0.5 + 0.3}s`; // Faster fade
+        spark.style.animationDuration = `${Math.random() * 0.5 + 0.3}s`;
         spark.style.animationTimingFunction = "ease-out";
 
         spark.addEventListener("animationend", () => {
           spark.remove();
         });
       });
-      // --- END NEW: Cursor Spark Trail ---
 
-      // --- NEW: Strobe Light Effect ---
+      // Strobe Light Effect
       const body = document.body;
       let strobeInterval;
 
       function startStrobe() {
         strobeInterval = setInterval(() => {
           body.classList.toggle("strobe-on");
-        }, 100); // Flash every 100ms
+        }, 100);
       }
-
-      // Start strobe after some delay to let initial animations settle
       setTimeout(startStrobe, 5000);
 
-      // Optional: Stop strobe after some time or on user interaction
-      // setTimeout(() => {
-      //     clearInterval(strobeInterval);
-      //     body.classList.remove('strobe-on');
-      // }, 20000); // Stops after 20 seconds
-      // --- END NEW: Strobe Light Effect ---
-
-      // --- NEW: Simulated Audio Visualizer (simple bars) ---
+      // Simulated Audio Visualizer (simple bars)
       function createVisualizerBars() {
         const visualizerContainer = document.createElement("div");
         visualizerContainer.classList.add("visualizer-container");
         document.body.appendChild(visualizerContainer);
 
         for (let i = 0; i < 20; i++) {
-          // 20 bars
           const bar = document.createElement("div");
           bar.classList.add("visualizer-bar");
-          bar.style.left = `${5 + i * 4.5}%`; // Distribute bars across the width
-          bar.style.animationDelay = `${Math.random() * 0.5}s`; // Stagger animation
+          bar.style.left = `${5 + i * 4.5}%`;
+          bar.style.animationDelay = `${Math.random() * 0.5}s`;
           visualizerContainer.appendChild(bar);
         }
       }
       document.addEventListener("DOMContentLoaded", createVisualizerBars);
-      // --- END NEW: Simulated Audio Visualizer ---
+
+      // Screen Shake Effect
+      function triggerScreenShake() {
+        body.classList.add("shake-active");
+        setTimeout(() => {
+          body.classList.remove("shake-active");
+        }, 150);
+      }
+
+      // Trigger shake randomly every 4-8 seconds
+      setInterval(() => {
+        if (Math.random() > 0.6) {
+          triggerScreenShake();
+        }
+      }, 4000 + Math.random() * 4000);
+
+      // --- Party Pop-Ups ---
+      const partyContent = [
+        "DANCE! 🕺💃",
+        "GROOVE! 🎶",
+        "WILD! 🎉",
+        "LEVEL UP! 🚀",
+        "VIBE CHECK: ALL GOOD! ✨",
+        "GET LIT! 🔥",
+        "BOOM! 💥",
+        "CHILL! 😎",
+        "Party Time! 🥳",
+        "Music On! 🎧",
+        "Feel The Beat! ❤️‍🔥",
+      ];
+
+      function createPartyPopUp() {
+        const popUp = document.createElement("div");
+        popUp.classList.add("party-pop-up");
+
+        const randomIndex = Math.floor(Math.random() * partyContent.length);
+        popUp.innerText = partyContent[randomIndex];
+
+        // Random position
+        popUp.style.left = `${Math.random() * 80 + 10}%`; // 10% to 90% horizontal
+        popUp.style.top = `${Math.random() * 60 + 20}%`; // 20% to 80% vertical
+
+        // Random size
+        const fontSize = Math.random() * 1.5 + 1; // 1rem to 2.5rem
+        popUp.style.fontSize = `${fontSize}rem`;
+
+        // Random animation duration
+        popUp.style.animationDuration = `${Math.random() * 3 + 2}s`; // 2 to 5 seconds
+
+        document.body.appendChild(popUp);
+
+        // Remove after animation
+        popUp.addEventListener("animationend", () => {
+          popUp.remove();
+        });
+      }
+
+      // Trigger a new party pop-up every 1 to 3 seconds
+      setInterval(createPartyPopUp, 1000 + Math.random() * 2000);
+      // --- END Party Pop-Ups ---
+
+      // --- Party Message Card Logic ---
+      const partyMessagesForCard = [
+        "Welcome to the Party! 🎉",
+        "Let the good times roll! 🥳",
+        "Dance your heart out! 🎶",
+        "Di you did lot of work this month so chill time", // Your added message
+        "Pe positive and never ever stress out", // Your added message
+        "Never ever loose your precious smile please", // Your added message
+        "Stay Hydrated! 😉",
+        "Enjoy the Music! 🎧",
+        "Lights, Camera, ACTION! 📸",
+      ];
+
+      let currentCardMessageIndex = 0;
+      const partyMessageText = document.getElementById("partyMessageText");
+
+      function showNextPartyMessageOnCard() {
+        // Apply fade-out animation
+        partyMessageText.style.animation = "messageFadeOut 1s ease-in forwards";
+
+        // When fade-out finishes, update content and fade in
+        partyMessageText.onanimationend = (event) => {
+          if (event.animationName === "messageFadeOut") {
+            currentCardMessageIndex =
+              (currentCardMessageIndex + 1) % partyMessagesForCard.length;
+            partyMessageText.innerText =
+              partyMessagesForCard[currentCardMessageIndex];
+
+            // Reset animation property and then apply fade-in
+            partyMessageText.style.animation = "none"; // Clear previous animation state
+            void partyMessageText.offsetWidth; // Force reflow
+            partyMessageText.style.animation =
+              "messageFadeIn 1s ease-out forwards";
+
+            partyMessageText.onanimationend = null; // Clear the listener for this event to avoid infinite loops
+          }
+        };
+
+        // Set a timer for the next cycle
+        setTimeout(showNextPartyMessageOnCard, 5000); // For a roughly 5s cycle
+      }
+
+      // Start the first message immediately
+      partyMessageText.innerText =
+        partyMessagesForCard[currentCardMessageIndex];
+      partyMessageText.style.animation = "messageFadeIn 1s ease-out forwards";
+      setTimeout(showNextPartyMessageOnCard, 5000); // Start the interval after initial display
+      // --- END Party Message Card Logic ---
+
+      // --- Heartfelt Message Logic ---
+      const heartfeltMessageContent =
+        "To Somya, with all my heart. You brighten every room. ✨"; // Customize this message!
+      const heartfeltMessageElement = document.getElementById(
+        "heartfeltMessageText"
+      );
+      const heartfeltMessageContainer =
+        document.querySelector(".heartfelt-message");
+
+      function showHeartfeltMessage() {
+        heartfeltMessageElement.innerText = heartfeltMessageContent;
+        heartfeltMessageContainer.style.display = "flex"; // Make it visible
+        heartfeltMessageContainer.style.animation =
+          "messageFadeIn 2s ease-out forwards"; // Fade in
+
+        // After a delay, fade out and hide
+        setTimeout(() => {
+          heartfeltMessageContainer.style.animation =
+            "messageFadeOut 2s ease-in forwards";
+          heartfeltMessageContainer.addEventListener(
+            "animationend",
+            function handleAnimationEnd(event) {
+              if (event.animationName === "messageFadeOut") {
+                heartfeltMessageContainer.style.display = "none"; // Hide completely
+                heartfeltMessageContainer.removeEventListener(
+                  "animationend",
+                  handleAnimationEnd
+                );
+              }
+            }
+          );
+        }, 8000); // Display for 8 seconds before fading out
+      }
+
+      // Show the heartfelt message after an initial delay (e.g., 2 seconds after page load)
+      document.addEventListener("DOMContentLoaded", () => {
+        setTimeout(showHeartfeltMessage, 2000);
+      });
+      // --- END Heartfelt Message Logic ---
     </script>
 
     <audio autoplay loop>
