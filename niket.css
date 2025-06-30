@@ -289,3 +289,29 @@ body {
     transform: translateY(0);
   }
 }
+
+/* --- Mouse Trail of Smoke --- */
+.smoke-trail-puff {
+  position: absolute;
+  border-radius: 50%;
+  background-color: rgba(200, 200, 200, 0.4); /* Semi-transparent light gray */
+  filter: blur(5px); /* Soft blur for smoky effect */
+  pointer-events: none; /* Allows clicks to pass through */
+  z-index: 9999; /* Ensures it's on top */
+  animation: dissipateSmoke var(--animation-duration, 3s) forwards ease-out;
+}
+
+@keyframes dissipateSmoke {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5); /* Start small and invisible */
+  }
+  20% {
+    opacity: 0.7; /* Becomes more visible quickly */
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0; /* Fade out */
+    transform: translate(-50%, -50%) scale(1.5) translateY(-50px); /* Grow and move up */
+  }
+}

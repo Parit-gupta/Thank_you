@@ -235,38 +235,39 @@
         }, 4500);
       }
 
-      // --- New Cursor Trail JavaScript ---
+      // --- Updated Cursor Trail JavaScript ---
       document.addEventListener("mousemove", (e) => {
-        createBeerBottleTrail(e.clientX, e.clientY);
+        createBubbleTrail(e.clientX, e.clientY);
       });
 
-      let lastBottleTime = 0;
-      const minBottleInterval = 50; // milliseconds between bottles (adjust for density)
+      let lastBubbleTime = 0;
+      const minBubbleInterval = 30; // milliseconds between bubbles (adjust for density)
 
-      function createBeerBottleTrail(x, y) {
+      function createBubbleTrail(x, y) {
         const currentTime = Date.now();
-        if (currentTime - lastBottleTime < minBottleInterval) {
-          return; // Don't create too many bottles too quickly
+        if (currentTime - lastBubbleTime < minBubbleInterval) {
+          return; // Don't create too many bubbles too quickly
         }
-        lastBottleTime = currentTime;
+        lastBubbleTime = currentTime;
 
-        const bottle = document.createElement("div");
-        bottle.classList.add("beer-bottle-trail");
-        document.body.appendChild(bottle);
+        const bubblePuff = document.createElement("div");
+        bubblePuff.classList.add("bubble-trail-puff"); // Use the new class
+        document.body.appendChild(bubblePuff);
 
-        bottle.style.left = `${x}px`;
-        bottle.style.top = `${y}px`;
+        // Randomize size slightly for a more natural look
+        const size = Math.random() * 15 + 10; // Bubbles between 10px and 25px
+        bubblePuff.style.width = `${size}px`;
+        bubblePuff.style.height = `${size}px`;
 
-        // Randomize rotation slightly for a more natural look
-        const randomRotation = Math.random() * 30 - 15; // -15 to +15 degrees
-        bottle.style.transform = `translate(-50%, -50%) rotate(${randomRotation}deg)`; // Center and rotate
+        bubblePuff.style.left = `${x}px`;
+        bubblePuff.style.top = `${y}px`;
 
-        // Remove the bottle after its animation
-        bottle.addEventListener("animationend", () => {
-          bottle.remove();
+        // Remove the bubble after its animation
+        bubblePuff.addEventListener("animationend", () => {
+          bubblePuff.remove();
         });
       }
-      // --- End New Cursor Trail JavaScript ---
+      // --- End Updated Cursor Trail JavaScript ---
 
       document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("drinkVolume").value = "200";

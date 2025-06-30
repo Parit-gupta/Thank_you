@@ -21,7 +21,9 @@
       </div>
 
       <div class="nicotex-warning">
-        <span>😒 Still smoking? Bro, Nicotex exists 👉🧃</span>
+        <span
+          >Niket Bhaiyaaaaaa 😒 Still smoking? Bhaiya, Nicotex exists 👉🧃</span
+        >
       </div>
 
       <div class="nicotex-box" data-word-container-id="nicotexWords1">
@@ -182,7 +184,7 @@
       const floatingCards = [];
 
       const cardAudios = [
-        new Audio("audio.mp3"),
+        new Audio("audio1.mp3"),
         new Audio("audio2.mp3"),
         new Audio("audio3.mp3"),
       ];
@@ -358,6 +360,36 @@
       }
 
       document.addEventListener("DOMContentLoaded", initializeFloatingCards);
+
+      // --- Mouse Trail of Smoke ---
+      document.addEventListener("mousemove", (e) => {
+        const smokePuff = document.createElement("div");
+        smokePuff.classList.add("smoke-trail-puff");
+        scene.appendChild(smokePuff); // Append to scene for relative positioning
+
+        // Position relative to the scene
+        const sceneRect = scene.getBoundingClientRect();
+        smokePuff.style.left = `${e.clientX - sceneRect.left}px`;
+        smokePuff.style.top = `${e.clientY - sceneRect.top}px`;
+
+        const size = Math.random() * 10 + 15; // Random size for smoke puffs
+        smokePuff.style.width = `${size}px`;
+        smokePuff.style.height = `${size}px`;
+
+        // Randomize initial offset to make trail more organic
+        const offsetX = (Math.random() - 0.5) * 20;
+        const offsetY = (Math.random() - 0.5) * 20;
+        smokePuff.style.transform = `translate(-50%, -50%) translate(${offsetX}px, ${offsetY}px)`;
+
+        // Randomize animation duration and delay for varied dissipation
+        smokePuff.style.animationDuration = `${Math.random() * 2 + 3}s`; // 3-5 seconds
+        smokePuff.style.animationDelay = `${Math.random() * 0.1}s`; // Slight delay for continuous flow
+
+        smokePuff.addEventListener("animationend", () => {
+          smokePuff.remove();
+        });
+      });
+      // --- End Mouse Trail of Smoke ---
     </script>
 
     <script>

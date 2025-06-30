@@ -329,28 +329,30 @@ select {
   }
 }
 
-/* --- New Cursor Trail Styles --- */
-.beer-bottle-trail {
+/* --- New Bubble Cursor Trail Styles --- */
+.bubble-trail-puff {
   position: fixed;
-  width: 25px; /* Adjust size of the bottle */
-  height: 25px; /* Adjust size of the bottle */
-  background-image: url("https://pngimg.com/uploads/beer_bottle/beer_bottle_PNG9922.png"); /* Replace with your beer bottle image URL */
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+  border-radius: 50%; /* Make it a circle */
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.4
+  ); /* Semi-transparent white/light color */
+  filter: blur(2px); /* Soft blur for a gaseous look */
   pointer-events: none; /* Allows clicks to pass through */
   z-index: 999; /* Above other elements */
-  animation: fadeAndShrink 0.8s ease-out forwards; /* Animation for the trail */
+  animation: bubbleDissipate 1.5s ease-out forwards; /* Animation for the bubble trail */
 }
 
-@keyframes fadeAndShrink {
+@keyframes bubbleDissipate {
   0% {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
+    transform: translate(-50%, -50%) scale(0.5); /* Start small */
   }
   100% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0);
+    transform: translate(-50%, -50%) scale(1.5) translateY(-30px); /* Grow and move up */
   }
 }
-/* --- End New Cursor Trail Styles --- */
+/* --- End New Bubble Cursor Trail Styles --- */

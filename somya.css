@@ -856,3 +856,23 @@ body.strobe-on {
     width: 95%;
   }
 }
+
+.mouse-trail-light {
+  position: absolute;
+  border-radius: 50%; /* Makes the light a circle */
+  transform: translate(-50%, -50%); /* Centers the light on the cursor */
+  pointer-events: none; /* Allows clicks to pass through the lights */
+  z-index: 9999; /* Ensure it's on top of other content */
+  animation: fadeOutAndShrink var(--animation-duration, 1s) forwards ease-out;
+}
+
+@keyframes fadeOutAndShrink {
+  0% {
+    opacity: 0.7; /* Start slightly visible */
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0; /* Fade out */
+    transform: translate(-50%, -50%) scale(0); /* Shrink */
+  }
+}
